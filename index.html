@@ -3,230 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Scrapbook ♡</title>
+    <title>Our Anniversary Scrapbook ♡</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #fdf2f2;
-            --pink-tape: #ffb7b2;
-            --page-color: #ffffff;
-            --text-main: #5c4a4c;
+            --bg-color: #f5ece9;
+            --cover-color: #9c2a2a;
+            --paper-color: #fffaf0;
+            --text-dark: #4a3b32;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             background-color: var(--bg-color);
             font-family: 'Quicksand', sans-serif;
-            margin: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
-        }
-
-        /* Container Utama */
-        .swiper {
-            width: 340px; /* Ukuran pas untuk layar HP */
-            height: 520px;
-        }
-
-        /* Desain Setiap Halaman */
-        .swiper-slide {
-            background-color: var(--page-color);
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex;
             flex-direction: column;
+        }
+
+        /* Container Utama Buku 3D */
+        .book-container {
+            perspective: 1500px;
+            width: 340px;
+            height: 480px;
+            position: relative;
+            transition: transform 0.5s;
+        }
+
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+
+        /* Desain Setiap Lembar Halaman */
+        .page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        /* Sisi Depan dan Belakang Kertas */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             padding: 25px;
             box-sizing: border-box;
-            border: 5px solid #fff;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 3px 3px 10px rgba(0,0,0,0.1);
+            border-radius: 0 15px 15px 0;
         }
 
-        /* Dekorasi Washi Tape */
-        .tape {
-            position: absolute;
-            width: 100px;
-            height: 30px;
-            background: rgba(255, 183, 178, 0.7);
-            top: -5px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-2deg);
-            z-index: 10;
+        .front {
+            background-color: var(--paper-color);
+            z-index: 2;
+            transform: rotateY(0deg);
         }
 
-        /* Halaman 1: Cover */
-        .cover {
-            text-align: center;
+        .back {
+            background-color: var(--paper-color);
+            transform: rotateY(180deg);
+            border-radius: 15px 0 0 15px;
+        }
+
+        /* --- STYLING DESAIN HALAMAN (Tema Merah Marun & Krem seperti Video) --- */
+        
+        /* Halaman Cover */
+        .page-cover {
+            background: radial-gradient(circle, #b83b3b 0%, #731a1a 100%);
+            color: #fff9f0;
+            border: 8px double #fff3d1;
+            border-radius: 12px;
             justify-content: center;
+            align-items: center;
+            text-align: center;
         }
-        .cover img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--bg-color);
+
+        .heart-frame {
+            font-size: 70px;
+            animation: pulse 1.5s infinite;
             margin-bottom: 20px;
         }
-        .cover h1 {
+
+        .page-cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            letter-spacing: 1px;
+            color: #fff3d1;
+        }
+
+        .page-cover p {
+            margin-top: 15px;
+            font-size: 13px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Halaman Isi / Kalender */
+        .calendar-section {
+            text-align: center;
+        }
+        .calendar-section h2 {
             font-family: 'Fredoka', sans-serif;
-            color: #ff8b94;
-            font-size: 26px;
+            color: #9c2a2a;
+            margin-bottom: 10px;
+        }
+        .calendar-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            margin: 10px 0;
         }
 
-        /* Gaya Text Surat */
-        .letter {
-            font-size: 14px;
+        /* Halaman Surat Cinta */
+        .letter-content {
+            font-size: 13px;
             line-height: 1.6;
-            color: var(--text-main);
-            background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-            background-size: 20px 20px; /* Efek kertas bintik */
-            padding: 10px;
-            height: 100%;
+            color: var(--text-dark);
+            border-left: 2px solid #e0cbbb;
+            padding-left: 12px;
+            margin-top: 10px;
+            white-space: pre-line;
         }
 
-        /* Polaroid Photo */
+        /* Halaman Polaroid Memori */
         .polaroid {
             background: white;
-            padding: 10px 10px 30px 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transform: rotate(-3deg);
-            margin-top: 20px;
+            padding: 8px 8px 22px 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            margin-top: 15px;
         }
         .polaroid img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
         }
-        .polaroid-text {
+        .polaroid-caption {
             text-align: center;
             font-family: 'Fredoka', sans-serif;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        /* Musik Page */
-        .music-page {
-            justify-content: center;
-            text-align: center;
-        }
-
-        /* Petunjuk Geser */
-        .instruction {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
             font-size: 12px;
-            color: #aaa;
-            left: 0;
+            margin-top: 5px;
+        }
+
+        /* Musik Tersembunyi & Control Panel */
+        .music-panel {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fcf1eb;
+            border-radius: 8px;
+            border: 1px dashed #dca596;
+            text-align: center;
+        }
+
+        /* Tombol Musik Interaktif */
+        .music-btn {
+            background: #9c2a2a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 12px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Keterangan Interaksi */
+        .hint {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8c766c;
+            text-align: center;
             animation: bounce 2s infinite;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-5px);}
-            60% {transform: translateY(-3px);}
+        /* Kelas Transisi Membuka Halaman (Flip) */
+        .flipped {
+            transform: rotateY(-180deg);
+            z-index: 10;
         }
 
-        /* Animasi Hati */
-        .floating-heart {
-            position: fixed;
-            color: #ff8b94;
-            font-size: 20px;
-            pointer-events: none;
-            z-index: 999;
-            animation: fly 3s linear forwards;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
-        @keyframes fly {
-            to { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
 
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="book-container">
+        <div class="book" id="book">
             
-            <div class="swiper-slide cover">
-                <div class="tape"></div>
-                <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400" alt="Foto">
-                <h1>Halo Sayang! 💖</h1>
-                <p>Klik & Geser ya untuk lihat isinya...</p>
-                <div class="instruction">Geser ke kiri << </div>
-            </div>
-
-            <div class="swiper-slide">
-                <div class="tape"></div>
-                <h3 style="color: #ff8b94;">Sebuah Pesan... 💌</h3>
-                <div class="letter">
-                    "Terima kasih ya sudah menjadi bagian paling indah di tahun ini. Aku harap hubungan kita tetap awet dan penuh warna seperti scrapbook ini.
-
-                    Kamu adalah alasan aku tersenyum setiap hari. Jangan pernah berubah ya!"
-                    <br><br>
-                    With Love, <br>
-                    <b>[Nama Kamu]</b>
+            <div class="page" id="p1" style="z-index: 5;">
+                <div class="front page-cover">
+                    <div class="heart-frame">❤️</div>
+                    <h1>Happy Anniversary</h1>
+                    <p>Our Lovely Scrapbook</p>
+                    <div class="hint">Sentuh untuk membuka halaman selanjutnya ✨</div>
+                </div>
+                <div class="back">
+                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Our Day 📅</h3>
+                    <p style="font-size: 13px; margin-bottom: 5px;">Momen paling bersejarah buat kita berdua:</p>
+                    <img class="calendar-img" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400" alt="Calendar">
+                    <p style="font-size: 12px; text-align: center; font-style: italic;">"Hari di mana semuanya dimulai..."</p>
                 </div>
             </div>
 
-            <div class="swiper-slide">
-                <div class="tape"></div>
-                <h3 style="text-align: center; color: #ff8b94;">Kenangan Kita 📸</h3>
-                <div class="polaroid">
-                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Memory">
-                    <div class="polaroid-text">Fav Memory! ✨</div>
+            <div class="page" id="p2" style="z-index: 4;">
+                <div class="front">
+                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">A Love Letter 💌</h3>
+                    <div class="letter-content">
+                        Dear Sayangku,
+
+                        Dari lembar pertama ini, aku cuma ingin kamu tau seberapa bersyukurnya aku memilikimu. 
+
+                        Terima kasih sudah menjadi rumah ternyaman tempatku pulang, mendengarkan semua ceritaku, dan mencintaiku dengan tulus apa adanya. 
+
+                        I Love You, Now and Forever! 💕
+                    </div>
                 </div>
-                <p style="font-size: 13px; text-align: center; margin-top: 15px;">
-                    "Satu dari sekian banyak momen yang paling aku suka bareng kamu."
-                </p>
+                <div class="back">
+                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Our Memory 📸</h3>
+                    <div class="polaroid">
+                        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Memory">
+                        <div class="polaroid-caption">Saat Terindah Bareng Kamu! ✨</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="swiper-slide music-page">
-                <div class="tape"></div>
-                <h3 style="color: #ff8b94;">Lagu Untukmu 🎵</h3>
-                <p style="font-size: 13px;">Dengerin ini sambil ingat aku ya!</p>
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6U0980I9ZpA3TMYVp76ZpL?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-
-            <div class="swiper-slide cover">
-                <div class="tape"></div>
-                <h2 style="color: #ff8b94;">I Love You! 🌸</h2>
-                <p>Sampai jumpa di halaman hidup selanjutnya bareng aku terus ya.</p>
-                <p style="font-size: 30px;">🏠💏</p>
+            <div class="page" id="p3" style="z-index: 3;">
+                <div class="front">
+                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Slide Away 🎵</h3>
+                    <p style="font-size: 13px; margin-top: 10px;">Lagu ini otomatis terputar di latar belakang untuk menemanimu membaca scrapbook ini.</p>
+                    
+                    <div class="music-panel">
+                        <p style="font-size: 12px; font-weight: bold; color: #9c2a2a;">NOW PLAYING:</p>
+                        <p style="font-size: 13px; font-style: italic; margin-top: 5px;">"Slide Away"</p>
+                        <button class="music-btn" id="playBtn" onclick="togglePlay()">Pause Musik ⏸️</button>
+                    </div>
+                </div>
+                <div class="back page-cover" style="border-radius: 15px 0 0 15px;">
+                    <div style="font-size: 40px;">🌸🏡🌸</div>
+                    <h2 style="font-family: 'Playfair Display', serif; color: #fff3d1; margin-top: 15px;">Terima Kasih, Sayang</h2>
+                    <p>Mari ukir kenangan indah lebih banyak lagi bersama!</p>
+                </div>
             </div>
 
         </div>
-        
-        <div class="swiper-pagination"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-        // Inisialisasi Efek Buku Slide
-        var swiper = new Swiper(".mySwiper", {
-            effect: "cards", // Efek menumpuk seperti kartu
-            grabCursor: true,
-            pagination: {
-                el: ".swiper-pagination",
-                dynamicBullets: true,
-            },
+        // Deklarasi Halaman & Audio
+        const book = document.getElementById('book');
+        const pages = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
+        const audio = document.getElementById('bg-music');
+        const playBtn = document.getElementById('playBtn');
+        let musicStarted = false;
+
+        // Fungsi Membuka Halaman (Flip) saat disentuh/diklik
+        pages.forEach((page, index) => {
+            page.addEventListener('click', (e) => {
+                // Mencegah trigger ganda jika klik tombol music
+                if (e.target.tagName === 'BUTTON') return;
+
+                // Memutar musik otomatis pada klik pertama pengguna (aturan keamanan browser terbaru)
+                if (!musicStarted) {
+                    audio.play().catch(error => console.log("Audio autoplay dicegah browser, harus interaksi dulu: ", error));
+                    musicStarted = true;
+                }
+
+                if (page.classList.contains('flipped')) {
+                    page.classList.remove('flipped');
+                    // Mengembalikan z-index agar urutan tumpukan kertas benar
+                    page.style.zIndex = 5 - index;
+                } else {
+                    page.classList.add('flipped');
+                    page.style.zIndex = 5 + index;
+                }
+            });
         });
 
-        // Efek Klik Muncul Hati
-        document.addEventListener('click', (e) => {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.classList.add('floating-heart');
-            heart.style.left = e.clientX + 'px';
-            heart.style.top = e.clientY + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 3000);
-        });
+        // Pengendali Musik (Play/Pause)
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = "Pause Musik ⏸️";
+            } else {
+                audio.pause();
+                playBtn.innerText = "Putar Musik ▶️";
+            }
+        }
+
+        // Otomatis putar musik ketika halaman web disentuh di mana saja untuk pertama kali
+        document.body.addEventListener('click', () => {
+            if (!musicStarted) {
+                audio.play();
+                musicStarted = true;
+            }
+        }, { once: true });
     </script>
 </body>
 </html>

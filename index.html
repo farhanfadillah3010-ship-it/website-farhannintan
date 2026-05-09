@@ -3,42 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Anniversary Scrapbook ♡</title>
+    <title>Scrapbook For You ♡</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #f5ece9;
-            --cover-color: #9c2a2a;
-            --paper-color: #fffaf0;
-            --text-dark: #4a3b32;
+            --bg-paper: #e8e4da;
+            --note-red: #cc4444;
+            --note-yellow: #f1c40f;
+            --text-hand: 'Gochi Hand', cursive;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--bg-color);
-            font-family: 'Quicksand', sans-serif;
-            height: 100vh;
+            background-color: #333; /* Background gelap agar buku menonjol */
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
             overflow: hidden;
-            flex-direction: column;
+            font-family: 'Quicksand', sans-serif;
         }
 
-        /* Container Utama Buku 3D */
+        /* Container Buku */
         .book-container {
-            perspective: 1500px;
-            width: 340px;
-            height: 480px;
             position: relative;
-            transition: transform 0.5s;
+            width: 360px;
+            height: 500px;
+            perspective: 1500px;
         }
 
         .book {
@@ -49,293 +43,191 @@
             transition: transform 1s;
         }
 
-        /* Desain Setiap Lembar Halaman */
+        /* Lembaran Halaman */
         .page {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            transform-origin: left center;
+            transform-origin: left;
             transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 5;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
             cursor: pointer;
         }
 
-        /* Sisi Depan dan Belakang Kertas */
         .front, .back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            padding: 25px;
-            box-sizing: border-box;
+            background-color: var(--bg-paper);
+            padding: 30px;
+            border: 1px solid #c4c1b5;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 3px 3px 10px rgba(0,0,0,0.1);
-            border-radius: 0 15px 15px 0;
+            background-image: 
+                linear-gradient(90deg, rgba(200,200,200,.1) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        .front {
-            background-color: var(--paper-color);
-            z-index: 2;
-            transform: rotateY(0deg);
-        }
+        .back { transform: rotateY(180deg); }
 
-        .back {
-            background-color: var(--paper-color);
-            transform: rotateY(180deg);
-            border-radius: 15px 0 0 15px;
-        }
-
-        /* --- STYLING DESAIN HALAMAN (Tema Merah Marun & Krem seperti Video) --- */
-        
-        /* Halaman Cover */
-        .page-cover {
-            background: radial-gradient(circle, #b83b3b 0%, #731a1a 100%);
-            color: #fff9f0;
-            border: 8px double #fff3d1;
-            border-radius: 12px;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .heart-frame {
-            font-size: 70px;
-            animation: pulse 1.5s infinite;
-            margin-bottom: 20px;
-        }
-
-        .page-cover h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            letter-spacing: 1px;
-            color: #fff3d1;
-        }
-
-        .page-cover p {
-            margin-top: 15px;
-            font-size: 13px;
-            font-style: italic;
-            opacity: 0.9;
-        }
-
-        /* Halaman Isi / Kalender */
-        .calendar-section {
-            text-align: center;
-        }
-        .calendar-section h2 {
-            font-family: 'Fredoka', sans-serif;
-            color: #9c2a2a;
-            margin-bottom: 10px;
-        }
-        .calendar-img {
-            width: 100%;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-            margin: 10px 0;
-        }
-
-        /* Halaman Surat Cinta */
-        .letter-content {
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-dark);
-            border-left: 2px solid #e0cbbb;
-            padding-left: 12px;
-            margin-top: 10px;
-            white-space: pre-line;
-        }
-
-        /* Halaman Polaroid Memori */
-        .polaroid {
+        /* Gaya Bingkai Foto Polaroid */
+        .photo-frame {
             background: white;
-            padding: 8px 8px 22px 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            padding: 10px 10px 35px 10px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            border: 1px solid #ddd;
+            width: 85%;
+            margin: 10px auto;
             transform: rotate(-2deg);
-            margin-top: 15px;
         }
-        .polaroid img {
+
+        .photo-frame img {
             width: 100%;
             height: 180px;
             object-fit: cover;
         }
-        .polaroid-caption {
-            text-align: center;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 12px;
-            margin-top: 5px;
-        }
 
-        /* Musik Tersembunyi & Control Panel */
-        .music-panel {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fcf1eb;
-            border-radius: 8px;
-            border: 1px dashed #dca596;
-            text-align: center;
-        }
-
-        /* Tombol Musik Interaktif */
-        .music-btn {
-            background: #9c2a2a;
+        /* Catatan Tempel (Sticky Notes) */
+        .sticky-note {
+            background-color: var(--note-red);
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 12px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            padding: 10px;
+            font-family: var(--text-hand);
+            font-size: 24px;
+            width: fit-content;
+            margin: 10px 0;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            transform: rotate(2deg);
         }
 
-        /* Keterangan Interaksi */
-        .hint {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #8c766c;
+        /* Tulisan Tangan */
+        .handwritten {
+            font-family: var(--text-hand);
+            font-size: 32px;
+            color: #333;
+            margin-top: 15px;
+            line-height: 1.2;
+        }
+
+        /* Dekorasi Tambahan */
+        .cover-page {
+            background-color: #b33939;
+            color: white;
+            justify-content: center;
             text-align: center;
-            animation: bounce 2s infinite;
+            border: 5px solid #8c2a2a;
         }
 
-        /* Kelas Transisi Membuka Halaman (Flip) */
-        .flipped {
-            transform: rotateY(-180deg);
-            z-index: 10;
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            color: white;
+            font-size: 12px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
+        /* Animasi Halaman */
+        .flipped { transform: rotateY(-180deg); z-index: 10 !important; }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+        #youtube-player { display: none; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <div id="youtube-player"></div>
 
     <div class="book-container">
-        <div class="book" id="book">
-            
-            <div class="page" id="p1" style="z-index: 5;">
-                <div class="front page-cover">
-                    <div class="heart-frame">❤️</div>
-                    <h1>Happy Anniversary</h1>
-                    <p>Our Lovely Scrapbook</p>
-                    <div class="hint">Sentuh untuk membuka halaman selanjutnya ✨</div>
-                </div>
-                <div class="back">
-                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Our Day 📅</h3>
-                    <p style="font-size: 13px; margin-bottom: 5px;">Momen paling bersejarah buat kita berdua:</p>
-                    <img class="calendar-img" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400" alt="Calendar">
-                    <p style="font-size: 12px; text-align: center; font-style: italic;">"Hari di mana semuanya dimulai..."</p>
+        <div class="page" style="z-index: 5;">
+            <div class="front cover-page">
+                <div style="font-size: 50px;">📖</div>
+                <h1 style="font-family: 'Indie Flower';">Scrapbook Kita</h1>
+                <p style="margin-top: 10px;">Sentuh untuk membuka ✨</p>
+            </div>
+            <div class="back">
+                <div class="sticky-note">I Said...</div>
+                <div class="handwritten">Maybe...</div>
+                <div class="photo-frame">
+                    <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400" alt="Foto1">
                 </div>
             </div>
+        </div>
 
-            <div class="page" id="p2" style="z-index: 4;">
-                <div class="front">
-                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">A Love Letter 💌</h3>
-                    <div class="letter-content">
-                        Dear Sayangku,
-
-                        Dari lembar pertama ini, aku cuma ingin kamu tau seberapa bersyukurnya aku memilikimu. 
-
-                        Terima kasih sudah menjadi rumah ternyaman tempatku pulang, mendengarkan semua ceritaku, dan mencintaiku dengan tulus apa adanya. 
-
-                        I Love You, Now and Forever! 💕
-                    </div>
+        <div class="page" style="z-index: 4;">
+            <div class="front">
+                <div class="handwritten">You're gonna be the one...</div>
+                <div class="photo-frame" style="transform: rotate(3deg); background: #fff;">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400" alt="Foto2">
                 </div>
-                <div class="back">
-                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Our Memory 📸</h3>
-                    <div class="polaroid">
-                        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Memory">
-                        <div class="polaroid-caption">Saat Terindah Bareng Kamu! ✨</div>
-                    </div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">That Saves Me!</div>
+            </div>
+            <div class="back">
+                <div class="handwritten">And After All...</div>
+                <div class="photo-frame">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Foto3">
                 </div>
             </div>
+        </div>
 
-            <div class="page" id="p3" style="z-index: 3;">
-                <div class="front">
-                    <h3 style="color: #9c2a2a; font-family: 'Fredoka', sans-serif;">Slide Away 🎵</h3>
-                    <p style="font-size: 13px; margin-top: 10px;">Lagu ini otomatis terputar di latar belakang untuk menemanimu membaca scrapbook ini.</p>
-                    
-                    <div class="music-panel">
-                        <p style="font-size: 12px; font-weight: bold; color: #9c2a2a;">NOW PLAYING:</p>
-                        <p style="font-size: 13px; font-style: italic; margin-top: 5px;">"Slide Away"</p>
-                        <button class="music-btn" id="playBtn" onclick="togglePlay()">Pause Musik ⏸️</button>
-                    </div>
-                </div>
-                <div class="back page-cover" style="border-radius: 15px 0 0 15px;">
-                    <div style="font-size: 40px;">🌸🏡🌸</div>
-                    <h2 style="font-family: 'Playfair Display', serif; color: #fff3d1; margin-top: 15px;">Terima Kasih, Sayang</h2>
-                    <p>Mari ukir kenangan indah lebih banyak lagi bersama!</p>
+        <div class="page" style="z-index: 3;">
+            <div class="front">
+                <div class="sticky-note">Slide Away 🎶</div>
+                <div class="handwritten">You're My Wonderwall & Everything.</div>
+                <div class="photo-frame" style="transform: scale(1.1) rotate(0deg);">
+                    <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400" alt="Foto4">
                 </div>
             </div>
-
+            <div class="back cover-page">
+                <h2>I Love You! ❤️</h2>
+                <p>Klik lagi untuk menutup</p>
+            </div>
         </div>
     </div>
 
+    <div class="hint">Sentuh tepi kanan buku untuk membalik halaman</div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Deklarasi Halaman & Audio
-        const book = document.getElementById('book');
-        const pages = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
-        const audio = document.getElementById('bg-music');
-        const playBtn = document.getElementById('playBtn');
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: 'Wp0hWIO3AMU', // Slide Away - Miley Cyrus
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'Wp0hWIO3AMU' }
+            });
+        }
+
+        const pages = document.querySelectorAll('.page');
         let musicStarted = false;
 
-        // Fungsi Membuka Halaman (Flip) saat disentuh/diklik
         pages.forEach((page, index) => {
-            page.addEventListener('click', (e) => {
-                // Mencegah trigger ganda jika klik tombol music
-                if (e.target.tagName === 'BUTTON') return;
-
-                // Memutar musik otomatis pada klik pertama pengguna (aturan keamanan browser terbaru)
-                if (!musicStarted) {
-                    audio.play().catch(error => console.log("Audio autoplay dicegah browser, harus interaksi dulu: ", error));
+            page.addEventListener('click', () => {
+                // Jalankan musik saat pertama kali klik
+                if(!musicStarted && player) {
+                    player.playVideo();
                     musicStarted = true;
                 }
 
+                // Efek Flip
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
-                    // Mengembalikan z-index agar urutan tumpukan kertas benar
-                    page.style.zIndex = 5 - index;
+                    // Mengatur ulang z-index saat halaman ditutup
+                    setTimeout(() => {
+                        page.style.zIndex = 5 - index;
+                    }, 500);
                 } else {
                     page.classList.add('flipped');
-                    page.style.zIndex = 5 + index;
+                    // Menaikkan z-index saat halaman dibuka agar tidak tertumpuk
+                    page.style.zIndex = 10 + index;
                 }
             });
         });
-
-        // Pengendali Musik (Play/Pause)
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playBtn.innerText = "Pause Musik ⏸️";
-            } else {
-                audio.pause();
-                playBtn.innerText = "Putar Musik ▶️";
-            }
-        }
-
-        // Otomatis putar musik ketika halaman web disentuh di mana saja untuk pertama kali
-        document.body.addEventListener('click', () => {
-            if (!musicStarted) {
-                audio.play();
-                musicStarted = true;
-            }
-        }, { once: true });
     </script>
 </body>
 </html>

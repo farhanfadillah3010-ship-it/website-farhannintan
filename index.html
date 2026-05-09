@@ -3,357 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Pink Memories</title>
+    <title>Scrapbook buat Sayangku ♡</title>
     <style>
+        /* Menggunakan Font Google yang Estetik dan Lucu */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap');
+
+        :root {
+            --bg-color: #f7e6e8;
+            --primary-pink: #ffb7b2;
+            --dark-pink: #ff8b94;
+            --accent-green: #e2f0cb;
+            --text-color: #5c4a4c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
-            color: #5d4037; min-height: 100vh; overflow-x: hidden;
-            padding-bottom: 90px;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Navigasi */
-        nav {
-            display: flex; justify-content: center; padding: 15px 0; gap: 15px;
-            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 15px rgba(216, 27, 96, 0.1);
+        /* Container Utama Scrapbook */
+        .scrapbook {
+            width: 100%;
+            max-width: 500px;
+            background: #fffdf9;
+            border: 8px solid var(--primary-pink);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            position: relative;
+            z-index: 10;
         }
 
-        nav a {
-            color: rgba(93, 64, 55, 0.8); text-decoration: none;
-            font-size: 15px; font-weight: 500; cursor: pointer;
-            padding: 5px 10px; transition: 0.3s;
+        /* Pita Perekat / Washi Tape Deco */
+        .washi-tape {
+            position: absolute;
+            width: 120px;
+            height: 30px;
+            background: rgba(255, 183, 178, 0.6);
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 2px dashed #ff9aa2;
+            border-right: 2px dashed #ff9aa2;
         }
 
-        nav a.active { color: #d81b60; font-weight: bold; border-bottom: 2px solid #d81b60; }
+        /* Bagian Profil Cover */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+        }
 
-        .page { display: none; animation: fadeIn 0.5s ease; }
-        .page.active-page { display: block; }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-pink);
+        }
+
+        .heart-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--dark-pink);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 24px;
+            color: var(--dark-pink);
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        /* Navigasi Tab */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background: var(--bg-color);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 13px;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--dark-pink);
+            color: white;
+        }
+
+        /* Konten Scrapbook */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Counter */
-        .counter-container {
-            background: white; padding: 25px; border-radius: 25px;
-            text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin: 30px 0; border: 2px dashed #ffafbd;
+        /* Desain Surat Cinta (Tab 1) */
+        .letter-box {
+            background: #fffef0;
+            border: 1px dashed #dcd6cd;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-line; /* Mempertahankan baris baru teks */
         }
-        .counter-time { font-size: 24px; font-weight: bold; color: #d81b60; margin-top: 10px; }
 
-        /* Card Foto Memories & Gallery */
-        .card-foto {
-            background: white; padding: 12px; border-radius: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08); margin-bottom: 20px;
+        /* Desain Playlist / Music (Tab 2) */
+        .playlist-container {
+            text-align: center;
         }
-        .card-foto img { width: 100%; border-radius: 18px; display: block; }
 
-        /* Gallery Grid (2 Kolom) */
-        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
-        .gallery-item { background: white; padding: 8px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .gallery-item img { width: 100%; border-radius: 10px; display: block; }
+        .spotify-embed {
+            border-radius: 12px;
+            margin-top: 10px;
+            width: 100%;
+        }
 
-        /* Form Message Board Baru & Estetik */
-        .message-form {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 25px; border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.1);
-            margin-bottom: 30px;
-            display: flex; flex-direction: column; gap: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(5px);
+        /* Desain Galeri Foto (Tab 3) */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
-        .message-form input, .message-form textarea {
-            width: 100%; padding: 14px; border: 2px solid #ffe3e8;
-            border-radius: 16px; font-family: inherit; font-size: 14px;
-            outline: none; box-sizing: border-box; transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
-        }
-        .message-form input:focus, .message-form textarea:focus {
-            border-color: #ffafbd;
+
+        .polaroid {
             background: white;
-            box-shadow: 0 0 10px rgba(255, 175, 189, 0.5);
-        }
-        .btn-kirim {
-            background: linear-gradient(135deg, #d81b60 0%, #ff4081 100%);
-            color: white; border: none; padding: 14px;
-            border-radius: 16px; font-weight: bold; font-size: 15px;
-            cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(216, 27, 96, 0.2);
-        }
-        .btn-kirim:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.3);
-        }
-        .btn-kirim:active { transform: translateY(0); }
-
-        /* Daftar Pesan */
-        .msg-list { display: flex; flex-direction: column; gap: 15px; }
-        
-        /* Animasi Pesan Masuk */
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.9) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        
-        /* Animasi Pesan Keluar */
-        @keyframes popOut {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.9) translateY(-10px); height: 0; padding: 0; margin: 0; border: none; }
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: rotate(-3deg);
+            transition: transform 0.3s;
         }
 
-        .msg-box {
-            background: white; padding: 18px; border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04); text-align: left;
-            position: relative; border-left: 5px solid #d81b60;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            transition: all 0.4s ease;
-        }
-        
-        .msg-box.removing {
-            animation: popOut 0.4s ease forwards;
+        .polaroid:nth-child(even) {
+            transform: rotate(3deg);
         }
 
-        .msg-name { font-weight: bold; color: #d81b60; font-size: 14px; display: block; margin-bottom: 5px;}
-        .msg-text { margin: 0; font-size: 14px; color: #5d4037; line-height: 1.5; }
-        
-        /* Tombol Hapus Cantik */
-        .btn-delete {
-            position: absolute; right: 15px; top: 15px;
-            background: #fff0f3; color: #e91e63; border: none;
-            width: 30px; height: 30px; border-radius: 50%; font-size: 12px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease;
-        }
-        .btn-delete:hover {
-            background: #e91e63; color: white;
-            transform: scale(1.1);
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg);
+            z-index: 5;
         }
 
-        /* Pemutar Musik di Bawah Tengah */
-        .music-player {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 2000; background: white; padding: 8px 20px;
-            border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: flex; align-items: center; gap: 12px; width: max-content;
-        }
-        .music-btn {
-            background: #d81b60; color: white; border: none;
-            width: 36px; height: 36px; border-radius: 50%;
-            cursor: pointer; font-size: 14px; display: flex;
-            align-items: center; justify-content: center;
+        .polaroid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border: 1px solid #ddd;
         }
 
-        /* Hati Terbang */
-        .click-heart { position: absolute; color: #d81b60; font-size: 20px; user-select: none; pointer-events: none; animation: heartFloat 1.2s ease-out forwards; z-index: 9999; }
-        @keyframes heartFloat { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-70px) scale(1.6); opacity: 0; } }
+        .polaroid-caption {
+            font-family: 'Fredoka', sans-serif;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 8px;
+            color: #555;
+        }
+
+        /* Desain Memo/Fact (Tab 4) */
+        .notes-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sticky-note {
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .note-pink { background-color: #ffdeb4; }
+        .note-blue { background-color: #b5ead7; }
+        .note-purple { background-color: #e8d7ff; }
+
+        /* Dekorasi Hati Berguguran (JS Background) */
+        .heart-fall {
+            position: fixed;
+            top: -10%;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
-<body onclick="handleFirstClick(event)">
+<body>
 
-    <div id="player-container"></div>
+    <div class="scrapbook">
+        <div class="washi-tape"></div>
 
-    <div class="music-player">
-        <button class="music-btn" id="play-pause" onclick="toggleMusic(event)">▶</button>
-        <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 9px; color: #888; text-transform: uppercase;">Now Playing</span>
-            <span style="font-size: 12px; font-weight: bold; color: #5d4037;">Aku Milikmu - Dewa 19</span>
-        </div>
-    </div>
-
-    <nav>
-        <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
-        <a onclick="showPage('memories')" id="nav-memories">Memories</a>
-        <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
-        <a onclick="showPage('message')" id="nav-message">Message</a>
-    </nav>
-
-    <div class="container">
-        <div id="home" class="page active-page">
-            <h2 style="text-align: center; color: #ad1457;">Welcome Home 🌸</h2>
-            <div class="counter-container">
-                <p style="margin: 0; font-size: 14px; color: #888;">Waktu Yang Kita Jalani:</p>
-                <div id="days-counter" class="counter-time">Mengitung...</div>
+        <div class="profile-section">
+            <div class="avatar-container">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300" alt="Sayangku">
+                <div class="heart-badge">💖</div>
             </div>
+            <h1>Untuk Favoritku 💕</h1>
+            <p class="subtitle">"Seseorang yang membuat hariku jauh lebih indah"</p>
         </div>
 
-        <div id="memories" class="page">
-            <h2 style="text-align: center; color: #ad1457;">🌸 Our Memories 🌸</h2>
-            <div class="card-foto">
-                <img src="foto_bersama1.jpg" alt="Foto Bersama 1">
-            </div>
-            <div class="card-foto">
-                <img src="foto_bersama2.jpg" alt="Foto Bersama 2">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('letter')">💌 Surat</button>
+            <button class="tab-btn" onclick="openTab('playlist')">🎵 Musik</button>
+            <button class="tab-btn" onclick="openTab('gallery')">📸 Galeri</button>
+            <button class="tab-btn" onclick="openTab('notes')">✨ Memo</button>
+        </div>
+
+        <div id="letter" class="content-section active">
+            <div class="letter-box">
+                Halo Sayangku,
+
+                Lewat scrapbook digital sederhana ini, aku cuma mau bilang terima kasih banyak ya sudah ada dan menemani hari-hariku. 
+
+                Meskipun kadang jarak atau waktu membatasi kita, perasaan aku ke kamu nggak akan pernah berkurang sedikit pun. Kamu adalah tempat pulang paling hangat yang selalu aku tuju.
+
+                Semoga kamu suka sama kejutan kecil ini! 🌸
+                
+                With love,
+                [Nama Kamu]
             </div>
         </div>
 
-        <div id="gallery" class="page">
-            <h2 style="text-align: center; color: #ad1457;">✨ Photo Gallery ✨</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="galeri1.jpg" alt="Galeri 1"></div>
-                <div class="gallery-item"><img src="galeri2.jpg" alt="Galeri 2"></div>
-                <div class="gallery-item"><img src="galeri3.jpg" alt="Galeri 3"></div>
-                <div class="gallery-item"><img src="galeri4.jpg" alt="Galeri 4"></div>
+        <div id="playlist" class="content-section">
+            <div class="playlist-container">
+                <p style="font-size: 14px; margin-bottom: 10px;">🎧 Lagu yang selalu mengingatkanku padamu:</p>
+                <iframe class="spotify-embed" src="https://open.spotify.com/embed/track/1KuE7e6Y3aG7S7Z3S8G48A?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
-        <div id="message" class="page">
-            <h2 style="text-align: center; color: #ad1457;">💌 Message Board 💌</h2>
-            
-            <div class="message-form">
-                <input type="text" id="inputNama" placeholder="Siapa namamu? ✨" required>
-                <textarea id="inputPesan" rows="3" placeholder="Tulis pesan manis di sini... 💖" required></textarea>
-                <button class="btn-kirim" onclick="kirimPesan()">Kirim Pesan ✨</button>
-            </div>
-
-            <div class="msg-list" id="daftarPesan">
+        <div id="gallery" class="content-section">
+            <div class="photo-gallery">
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300" alt="Foto 1">
+                    <div class="polaroid-caption">Saat kita senyum bareng 📸</div>
                 </div>
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300" alt="Foto 2">
+                    <div class="polaroid-caption">Si gemes kesayangan 🥰</div>
+                </div>
+            </div>
         </div>
+
+        <div id="notes" class="content-section">
+            <div class="notes-grid">
+                <div class="sticky-note note-pink">
+                    📌 <strong>Reminder hari ini:</strong> Jangan lupa makan tepat waktu dan minum air putih yang banyak ya, cantik!
+                </div>
+                <div class="sticky-note note-blue">
+                    ⭐ <strong>3 Hal yang aku suka dari kamu:</strong>
+                    1. Senyum manis kamu.
+                    2. Cara kamu dengerin ceritaku.
+                    3. Suara ketawa kamu yang bikin candu.
+                </div>
+                <div class="sticky-note note-purple">
+                    💭 <strong>My Wish:</strong> Semoga kita bisa segera ketemu lagi dan ngabisin waktu bareng-bareng tanpa layar yang membatasi.
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // YouTube API Setup
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // Fungsi Tab Menu
+        function openTab(tabId) {
+            // Sembunyikan semua section
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
 
-        var player;
-        var musicStarted = false;
+            // Nonaktifkan semua button tab
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
 
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player-container', {
-                height: '0', width: '0',
-                videoId: 'gT9g1cW1H-4',
-                playerVars: {
-                    'autoplay': 1,
-                    'loop': 1,
-                    'playlist': 'gT9g1cW1H-4'
-                }
-            });
+            // Tampilkan section yang dipilih & aktifkan buttonnya
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
-        function handleFirstClick(e) {
-            spawnHeart(e);
-            if (player && !musicStarted) {
-                player.playVideo();
-                document.getElementById('play-pause').innerHTML = "⏸";
-                musicStarted = true;
-            }
-        }
-
-        function toggleMusic(e) {
-            e.stopPropagation();
-            if (player) {
-                var state = player.getPlayerState();
-                if (state === 1) {
-                    player.pauseVideo();
-                    document.getElementById('play-pause').innerHTML = "▶";
-                } else {
-                    player.playVideo();
-                    document.getElementById('play-pause').innerHTML = "⏸";
-                    musicStarted = true;
-                }
-            }
-        }
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active-page');
-            document.getElementById('nav-' + pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
-        function spawnHeart(e) {
+        // Fungsi Efek Taburan Hati Berguguran
+        function createHeart() {
             const heart = document.createElement('div');
-            heart.className = 'click-heart';
-            heart.innerHTML = '❤️';
-            heart.style.left = e.pageX + 'px';
-            heart.style.top = e.pageY + 'px';
+            heart.classList.add('heart-fall');
+            
+            // Berbagai variasi warna/bentuk cinta
+            const hearts = ['🌸', '💕', '💖', '💗', '🍓', '💌'];
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s"; // Kecepatan gugur antara 2s-5s
+            heart.style.opacity = Math.random() * 0.5 + 0.5; // Transparansi bervariasi
+            heart.style.fontSize = Math.random() * 15 + 15 + "px"; // Ukuran bervariasi
+            
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 1200);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
 
-        function updateCounter() {
-            const startDate = new Date("2024-01-01T00:00:00"); 
-            const now = new Date();
-            const diff = now - startDate;
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById("days-counter").innerHTML = 
-                `${days} Hari, ${hours}j ${minutes}m ${seconds}d`;
-        }
-        setInterval(updateCounter, 1000);
-        updateCounter();
-
-        // Guestbook logic dengan Local Storage (Menjaga agar pesan tidak hilang saat di-refresh)
-        let messages = JSON.parse(localStorage.getItem('guestbook_messages')) || [
-            { id: 'msg-default', name: 'frhan', text: 'I love u more 💖' }
-        ];
-
-        function renderMessages() {
-            const daftar = document.getElementById("daftarPesan");
-            if(daftar) {
-                daftar.innerHTML = "";
-                messages.forEach(msg => {
-                    const boxPesan = document.createElement('div');
-                    boxPesan.className = 'msg-box';
-                    boxPesan.id = msg.id;
-                    boxPesan.innerHTML = `
-                        <span class="msg-name">${msg.name}</span>
-                        <button class="btn-delete" onclick="hapusPesan(event, '${msg.id}')">🗑️</button>
-                        <p class="msg-text">${msg.text}</p>
-                    `;
-                    daftar.appendChild(boxPesan);
-                });
-            }
-        }
-
-        function kirimPesan() {
-            const nama = document.getElementById("inputNama").value.trim();
-            const pesan = document.getElementById("inputPesan").value.trim();
-
-            if (nama === "" || pesan === "") {
-                alert("Harap isi nama dan pesan kamu terlebih dahulu! ✨");
-                return;
-            }
-
-            const newId = 'msg-' + Date.now();
-            const newMsg = { id: newId, name: nama, text: pesan };
-
-            messages.unshift(newMsg);
-            localStorage.setItem('guestbook_messages', JSON.stringify(messages));
-            renderMessages();
-
-            document.getElementById("inputNama").value = "";
-            document.getElementById("inputPesan").value = "";
-        }
-
-        function hapusPesan(event, id) {
-            event.stopPropagation();
-            const element = document.getElementById(id);
-            if (element) {
-                element.classList.add('removing');
-                setTimeout(() => {
-                    messages = messages.filter(msg => msg.id !== id);
-                    localStorage.setItem('guestbook_messages', JSON.stringify(messages));
-                    renderMessages();
-                }, 400);
-            }
-        }
-
-        renderMessages();
+        // Buat satu hati setiap 400ms
+        setInterval(createHeart, 400);
     </script>
 </body>
 </html>

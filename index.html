@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slide Away — Memory Diary</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Slide Away — Oasis Dream Diary</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;500;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 
@@ -11,11 +12,8 @@
 
 :root{
     --cream:#f8f2e8;
-    --beige:#eadfce;
-    --brown:#6c5448;
     --gold:#d7b46a;
     --gold-soft:rgba(215,180,106,.35);
-    --warm:#fff8ef;
 }
 
 *{
@@ -47,6 +45,7 @@ BACKGROUND
     content:'';
     position:absolute;
     inset:0;
+
     background:
     radial-gradient(circle at top left,
     rgba(255,220,160,.18),
@@ -77,6 +76,89 @@ BACKGROUND
     100%{transform:translate(0,0);}
 }
 
+/* =========================
+OASIS DREAM FX
+========================= */
+
+body::before{
+    content:'';
+    position:fixed;
+    inset:-20%;
+
+    background:
+    radial-gradient(circle at 20% 30%,
+    rgba(255,220,170,.12),
+    transparent 25%),
+
+    radial-gradient(circle at 80% 60%,
+    rgba(120,170,255,.10),
+    transparent 28%),
+
+    radial-gradient(circle at 50% 80%,
+    rgba(255,180,120,.10),
+    transparent 35%);
+
+    animation:auroraMove 18s ease-in-out infinite alternate;
+    filter:blur(80px);
+    z-index:-30;
+}
+
+@keyframes auroraMove{
+    0%{
+        transform:translate(-5%,-3%) scale(1);
+    }
+
+    100%{
+        transform:translate(5%,4%) scale(1.15);
+    }
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    inset:0;
+
+    background:
+    radial-gradient(circle,
+    transparent 40%,
+    rgba(0,0,0,.65) 100%);
+
+    z-index:-10;
+    pointer-events:none;
+}
+
+.blur-orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    mix-blend-mode:screen;
+    opacity:.35;
+    animation:orbFloat 16s ease-in-out infinite alternate;
+}
+
+.blur-orb.one{
+    width:320px;
+    height:320px;
+    background:#ffc46b;
+    top:10%;
+    left:5%;
+}
+
+.blur-orb.two{
+    width:280px;
+    height:280px;
+    background:#6ea8ff;
+    bottom:5%;
+    right:8%;
+    animation-duration:20s;
+}
+
+@keyframes orbFloat{
+    100%{
+        transform:translateY(-40px) translateX(25px);
+    }
+}
+
 .lights{
     position:absolute;
     inset:0;
@@ -87,11 +169,15 @@ BACKGROUND
     position:absolute;
     width:400px;
     height:120vh;
+
     background:linear-gradient(to bottom,
     rgba(255,210,150,.2),
     transparent);
+
     filter:blur(60px);
+
     transform:rotate(20deg);
+
     animation:lightMove 12s ease-in-out infinite alternate;
 }
 
@@ -104,10 +190,15 @@ BACKGROUND
     from{
         transform:translateY(-5%) rotate(15deg);
     }
+
     to{
         transform:translateY(10%) rotate(-10deg);
     }
 }
+
+/* =========================
+PARTICLES
+========================= */
 
 .particles{
     position:absolute;
@@ -152,11 +243,13 @@ CURSOR
     pointer-events:none;
     z-index:9999;
     background:white;
+
     mix-blend-mode:difference;
+
     box-shadow:
     0 0 10px white,
-    0 0 30px var(--gold),
-    0 0 50px var(--gold-soft);
+    0 0 30px var(--gold);
+
     transform:translate(-50%,-50%);
 }
 
@@ -186,18 +279,18 @@ COVER
     position:fixed;
     inset:0;
     z-index:100;
+
     display:flex;
     justify-content:center;
     align-items:center;
     text-align:center;
+
     overflow:hidden;
 
     background:
     radial-gradient(circle,
     rgba(255,245,225,.95),
-    rgba(225,210,190,.98)),
-
-    url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    rgba(225,210,190,.98));
 
     transition:2s cubic-bezier(.7,0,.3,1);
 }
@@ -206,25 +299,6 @@ COVER
     opacity:0;
     transform:scale(1.15);
     pointer-events:none;
-}
-
-.cover-overlay{
-    position:absolute;
-    inset:0;
-
-    background:
-    radial-gradient(circle at top left,
-    rgba(255,255,255,.6),
-    transparent 30%),
-
-    radial-gradient(circle at bottom right,
-    rgba(255,210,120,.3),
-    transparent 35%);
-}
-
-.cover-content{
-    position:relative;
-    z-index:2;
 }
 
 .cover-content h1{
@@ -278,10 +352,20 @@ BOOK
 #book{
     width:100vw;
     height:100vh;
+
     display:flex;
     justify-content:center;
     align-items:center;
+
     perspective:3000px;
+
+    animation:bookBreath 12s ease-in-out infinite;
+}
+
+@keyframes bookBreath{
+    50%{
+        transform:scale(1.01);
+    }
 }
 
 .page{
@@ -292,7 +376,6 @@ BOOK
 
     background:
     linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),
-    url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
     var(--cream);
 
     border-radius:8px;
@@ -314,10 +397,11 @@ BOOK
     transition:1.5s cubic-bezier(.2,.8,.2,1);
 
     box-shadow:
-    0 25px 70px rgba(0,0,0,.45),
-    inset 0 0 50px rgba(255,255,255,.4);
+    0 25px 70px rgba(0,0,0,.45);
 
     overflow:hidden;
+
+    backdrop-filter:blur(2px);
 }
 
 .page.active{
@@ -327,62 +411,71 @@ BOOK
     rotateY(0)
     translateY(0)
     scale(1);
+
+    animation:
+    pageEnter 1.6s cubic-bezier(.2,.8,.2,1),
+    pagePulse 8s ease-in-out infinite;
 }
 
-.page::before{
-    content:'';
-    position:absolute;
-    inset:0;
+@keyframes pageEnter{
+    from{
+        opacity:0;
+        transform:
+        rotateY(-60deg)
+        scale(.8)
+        translateY(60px);
 
-    background:
-    radial-gradient(circle at top left,
-    rgba(255,255,255,.5),
-    transparent 30%);
-}
+        filter:blur(10px);
+    }
 
-/* decorations */
+    to{
+        opacity:1;
+        transform:
+        rotateY(0)
+        scale(1)
+        translateY(0);
 
-.sticker{
-    position:absolute;
-    font-size:1.8rem;
-    animation:floatSticker 5s ease-in-out infinite;
-}
-
-.sticker.one{
-    top:20px;
-    right:30px;
-}
-
-.sticker.two{
-    bottom:25px;
-    left:30px;
-}
-
-@keyframes floatSticker{
-    50%{
-        transform:translateY(-10px) rotate(8deg);
+        filter:blur(0);
     }
 }
+
+@keyframes pagePulse{
+    50%{
+        box-shadow:
+        0 25px 80px rgba(0,0,0,.55),
+        0 0 40px rgba(255,210,140,.18);
+    }
+}
+
+/* =========================
+PHOTO
+========================= */
 
 .polaroid{
     background:white;
     padding:15px 15px 60px;
-    box-shadow:
-    0 20px 30px rgba(0,0,0,.2);
 
     position:relative;
 
     transform:rotate(-3deg);
 
-    animation:swing 5s ease-in-out infinite;
+    transition:
+    transform .8s ease,
+    box-shadow .8s ease;
+
+    box-shadow:
+    0 20px 30px rgba(0,0,0,.2);
 }
 
-@keyframes swing{
-    50%{
-        transform:
-        rotate(-1deg)
-        translateY(-10px);
-    }
+.polaroid:hover{
+    transform:
+    rotate(0deg)
+    scale(1.04)
+    translateY(-8px);
+
+    box-shadow:
+    0 30px 60px rgba(0,0,0,.35),
+    0 0 40px rgba(255,220,170,.2);
 }
 
 .polaroid img{
@@ -390,40 +483,43 @@ BOOK
     height:380px;
     object-fit:cover;
     display:block;
+
+    transition:
+    transform 8s ease,
+    filter 2s ease;
+}
+
+.page.active .polaroid img{
+    transform:scale(1.08);
+}
+
+.polaroid:hover img{
+    transform:scale(1.14);
 }
 
 .tape{
     position:absolute;
     top:-15px;
     left:50%;
+
     transform:translateX(-50%) rotate(2deg);
 
     width:120px;
     height:35px;
 
     background:rgba(255,225,170,.45);
-
-    backdrop-filter:blur(2px);
 }
 
 /* =========================
-LYRICS
+TEXT
 ========================= */
 
 .note{
-    width:100%;
     margin-top:30px;
-
-    display:flex;
-    justify-content:center;
     text-align:center;
-
-    padding:0 20px;
 }
 
 .typing{
-    max-width:850px;
-
     font-family:'Dancing Script', cursive;
 
     font-size:clamp(1.8rem,3vw,3.2rem);
@@ -432,47 +528,55 @@ LYRICS
 
     line-height:1.6;
 
-    text-shadow:
-    0 0 10px rgba(255,255,255,.4),
-    0 0 20px rgba(215,180,106,.2);
+    position:relative;
 
     animation:fadeLyrics 1.5s ease;
-
-    white-space:normal;
-
-    word-break:break-word;
 }
 
-.final-text{
-    font-size:clamp(2.6rem,5vw,4rem);
+.typing::after{
+    content:'';
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent);
+
+    transform:translateX(-120%);
+    animation:lyricsShine 5s infinite;
+}
+
+@keyframes lyricsShine{
+    100%{
+        transform:translateX(120%);
+    }
 }
 
 @keyframes fadeLyrics{
     from{
         opacity:0;
-        transform:
-        translateY(20px)
-        scale(.98);
+        transform:translateY(20px);
         filter:blur(8px);
     }
 
     to{
         opacity:1;
-        transform:
-        translateY(0)
-        scale(1);
+        transform:translateY(0);
         filter:blur(0);
     }
 }
 
 /* =========================
-CONTROLS
+BUTTONS
 ========================= */
 
 .controls{
     position:fixed;
     bottom:25px;
     left:50%;
+
     transform:translateX(-50%);
 
     display:flex;
@@ -482,10 +586,20 @@ CONTROLS
     transition:1s;
 
     z-index:100;
+
+    animation:controlsFloat 5s ease-in-out infinite;
 }
 
 .controls.show{
     opacity:1;
+}
+
+@keyframes controlsFloat{
+    50%{
+        transform:
+        translateX(-50%)
+        translateY(-6px);
+    }
 }
 
 button{
@@ -523,6 +637,15 @@ button:hover{
     top:20px;
     right:20px;
     z-index:120;
+
+    animation:musicPulse 3s infinite;
+}
+
+@keyframes musicPulse{
+    50%{
+        box-shadow:
+        0 0 20px rgba(255,220,150,.4);
+    }
 }
 
 /* =========================
@@ -560,21 +683,11 @@ ENDING
     color:var(--gold);
 
     font-style:italic;
-
-    text-align:center;
-
-    animation:endGlow 4s infinite alternate;
 }
 
-@keyframes endGlow{
-    to{
-        text-shadow:
-        0 0 20px rgba(215,180,106,.5),
-        0 0 50px rgba(215,180,106,.8);
-    }
-}
-
-/* mobile */
+/* =========================
+MOBILE
+========================= */
 
 @media(max-width:768px){
 
@@ -603,9 +716,14 @@ button{
 
 <body>
 
+<!-- BACKGROUND -->
+
 <div class="bg">
 
     <div class="grain"></div>
+
+    <div class="blur-orb one"></div>
+    <div class="blur-orb two"></div>
 
     <div class="lights">
         <div class="light"></div>
@@ -616,7 +734,11 @@ button{
 
 </div>
 
+<!-- CURSOR -->
+
 <div id="cursor"></div>
+
+<!-- AUDIO -->
 
 <audio id="bgm" loop>
     <source src="slide-away.mp3" type="audio/mp3">
@@ -625,8 +747,6 @@ button{
 <!-- COVER -->
 
 <section id="cover" onclick="openBook()">
-
-    <div class="cover-overlay"></div>
 
     <div class="cover-content">
 
@@ -641,7 +761,7 @@ button{
         </div>
 
         <div class="tap">
-            Tap anywhere to open the memories
+            Tap anywhere to open
         </div>
 
     </div>
@@ -652,15 +772,13 @@ button{
 
 <div id="book">
 
-    <!-- PAGE TEMPLATE -->
+    <!-- PAGE 1 -->
 
     <div class="page active">
 
-        <div class="sticker one">✨</div>
-        <div class="sticker two">🤍</div>
-
         <div class="polaroid">
             <div class="tape"></div>
+
             <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop">
         </div>
 
@@ -672,12 +790,13 @@ button{
 
     </div>
 
+    <!-- PAGE 2 -->
+
     <div class="page">
 
-        <div class="sticker one">🌙</div>
-
-        <div class="polaroid" style="transform:rotate(4deg);">
+        <div class="polaroid">
             <div class="tape"></div>
+
             <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
         </div>
 
@@ -689,103 +808,14 @@ button{
 
     </div>
 
-    <div class="page">
-
-        <div class="sticker one">☁️</div>
-
-        <div class="polaroid">
-            <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop">
-        </div>
-
-        <div class="note">
-            <span class="typing">
-                “Now that you’re mine, we’ll find a way”
-            </span>
-        </div>
-
-    </div>
+    <!-- PAGE 3 -->
 
     <div class="page">
 
         <div class="polaroid">
             <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop">
-        </div>
 
-        <div class="note">
-            <span class="typing">
-                “Of chasing the sun”
-            </span>
-        </div>
-
-    </div>
-
-    <div class="page">
-
-        <div class="polaroid">
-            <div class="tape"></div>
             <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
-        </div>
-
-        <div class="note">
-            <span class="typing">
-                “Let me be the one who shines with you”
-            </span>
-        </div>
-
-    </div>
-
-    <div class="page">
-
-        <div class="polaroid">
-            <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
-        </div>
-
-        <div class="note">
-            <span class="typing">
-                “In the morning we don’t know what to do”
-            </span>
-        </div>
-
-    </div>
-
-    <div class="page">
-
-        <div class="polaroid">
-            <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
-        </div>
-
-        <div class="note">
-            <span class="typing">
-                “Two of a kind, we’ll find a way”
-            </span>
-        </div>
-
-    </div>
-
-    <div class="page">
-
-        <div class="polaroid">
-            <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200&auto=format&fit=crop">
-        </div>
-
-        <div class="note">
-            <span class="typing">
-                “To do what we’ve done”
-            </span>
-        </div>
-
-    </div>
-
-    <div class="page">
-
-        <div class="polaroid">
-            <div class="tape"></div>
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
         </div>
 
         <div class="note">
@@ -801,7 +831,7 @@ button{
     <div class="page">
 
         <div class="note">
-            <span class="typing final-text">
+            <span class="typing" style="font-size:4rem;">
                 “And we can slide away...”
             </span>
         </div>
@@ -818,9 +848,13 @@ button{
 
 <div class="controls" id="controls">
 
-    <button onclick="prevPage()">Prev</button>
+    <button onclick="prevPage()">
+        Prev
+    </button>
 
-    <button onclick="nextPage()">Next</button>
+    <button onclick="nextPage()">
+        Next
+    </button>
 
 </div>
 
@@ -828,7 +862,7 @@ button{
     Music
 </button>
 
-<!-- ENDING -->
+<!-- END -->
 
 <div id="ending">
 
@@ -880,10 +914,9 @@ document.addEventListener('mousemove',e=>{
     document.body.appendChild(trail);
 
     setTimeout(()=>trail.remove(),800);
-
 });
 
-/* book logic */
+/* pages */
 
 const pages = document.querySelectorAll('.page');
 
@@ -902,16 +935,40 @@ function openBook(){
     bgm.volume=.8;
 
     bgm.play().catch(()=>{});
-
 }
 
 function showPage(index){
 
-    pages.forEach(page=>{
+    pages.forEach((page)=>{
+
         page.classList.remove('active');
+
+        page.style.zIndex = 1;
     });
 
+    pages[index].style.zIndex = 5;
+
     pages[index].classList.add('active');
+
+    pages[index].animate([
+
+        {
+            opacity:.2,
+            transform:'scale(.92) rotateY(-15deg)',
+            filter:'blur(8px)'
+        },
+
+        {
+            opacity:1,
+            transform:'scale(1) rotateY(0deg)',
+            filter:'blur(0)'
+        }
+
+    ],{
+
+        duration:1400,
+        easing:'cubic-bezier(.2,.8,.2,1)'
+    });
 }
 
 function nextPage(){
@@ -965,10 +1022,24 @@ function showEnding(){
         }
 
     },200);
-
 }
+
+/* keyboard support */
+
+document.addEventListener('keydown',(e)=>{
+
+    if(e.key === 'ArrowRight'){
+
+        nextPage();
+    }
+
+    if(e.key === 'ArrowLeft'){
+
+        prevPage();
+    }
+});
 
 </script>
 
 </body>
-    </html>
+</html>

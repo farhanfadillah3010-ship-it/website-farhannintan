@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Away - Fullscreen Book Jurnal ♡</title>
+    <title>Slide Away - Jurnal Buku ♡</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght=500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-paper: #e8e4da;
+            --bg-paper: #f4f0e6;
             --note-red: #cc4444;
             --note-yellow: #f1c40f;
             --note-blue: #3498db;
@@ -35,13 +35,13 @@
         /* CONTAINER BUKU BESAR LAYAR PENUH */
         .book-container {
             position: relative;
-            width: 90vw;            /* Mengambil 90% lebar layar */
-            height: 85vh;           /* Mengambil 85% tinggi layar */
-            max-width: 500px;       /* Batas maksimal lebar di layar PC agar tetap estetik */
-            perspective: 2000px;    /* Efek kedalaman 3D yang lebih nyata */
+            width: 90vw;
+            height: 85vh;
+            max-width: 500px;
+            perspective: 2000px;
         }
 
-        /* Lembaran Kertas Buku */
+        /* Lembaran Buku */
         .page {
             width: 100%;
             height: 100%;
@@ -53,7 +53,7 @@
             cursor: pointer;
         }
 
-        /* Sisi Depan dan Sisi Belakang Lembaran */
+        /* Sisi Depan dan Belakang Lembaran */
         .front, .back {
             position: absolute;
             width: 100%; height: 100%;
@@ -69,13 +69,11 @@
             border-radius: 8px;
         }
 
-        /* Sisi belakang harus diputar 180 derajat */
         .back { 
             transform: rotateY(180deg); 
             border-left: 3px double rgba(0,0,0,0.1);
         }
 
-        /* Pembatas Tengah Buku */
         .front::after {
             content: '';
             position: absolute;
@@ -83,7 +81,7 @@
             background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, transparent 100%);
         }
 
-        /* Ornamen Frame Foto Scrapbook Besar */
+        /* Frame Foto Polaroid */
         .photo-frame {
             background: white;
             padding: 3% 3% 8% 3%;
@@ -98,7 +96,7 @@
         .photo-frame img { 
             width: 100%; 
             height: 100%;
-            max-height: 35vh; /* Menjaga agar foto menyesuaikan tinggi layar HP */
+            max-height: 35vh;
             object-fit: cover; 
         }
 
@@ -111,18 +109,17 @@
 
         .handwritten {
             font-family: var(--text-hand); 
-            font-size: calc(18px + 1vw); /* Ukuran tulisan otomatis membesar di layar besar */
+            font-size: calc(20px + 1vw);
             color: #333; margin-top: 5%; text-align: center; line-height: 1.4;
         }
 
-        /* Tema Cover Buku Gelap Mewah */
+        /* Cover Buku */
         .cover {
             background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
             color: white; justify-content: center; align-items: center; text-align: center;
             border: 8px double #fff3d1;
         }
 
-        /* EFEK MEMBALIK HALAMAN KIRI */
         .flipped { 
             transform: rotateY(-180deg) !important; 
         }
@@ -134,7 +131,7 @@
             padding: 5px 12px; border-radius: 15px; z-index: 100;
         }
 
-        /* Tombol Fullscreen Manual */
+        /* Tombol Fullscreen */
         #fs-toggle {
             position: fixed; bottom: 15px; left: 15px;
             background: rgba(255,255,255,0.15); color: #fff;
@@ -162,74 +159,75 @@
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-                <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
+                <div class="handwritten">"Slide in baby<br>together we'll fly"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=500"></div>
             </div>
         </div>
 
         <div class="page">
             <div class="front">
-                <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
+                <div class="handwritten">"I've tried praying but I don't know what you're saying to me"</div>
                 <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=500"></div>
                 <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Prayers</div>
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
-                <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
+                <div class="handwritten">"Now that you're mine"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500"></div>
             </div>
         </div>
 
         <div class="page">
             <div class="front">
-                <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
+                <div class="handwritten">"We'll find a way<br>Of chasing the sun"</div>
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=500"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Two of a Kind</div>
-                <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
+                <div class="sticky-note" style="background: var(--note-green);">Shine</div>
+                <div class="handwritten">"Let me be the one who shines with you"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500"></div>
             </div>
         </div>
 
         <div class="page">
             <div class="front">
-                <div class="sticky-note" style="background: var(--note-blue);">Verse 2</div>
-                <div class="handwritten">"Slide away, and give it all you've got...<br>My today, fell in from the top."</div>
+                <div class="sticky-note" style="background: var(--note-blue);">Morning</div>
+                <div class="handwritten">"In the morning we don't know what to do"</div>
                 <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-yellow); color: black;">Verse 2</div>
-                <div class="handwritten">"I dream of you, and all the things you say...<br>I wonder where you are now."</div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black;">Kindred</div>
+                <div class="handwritten">"Two of a kind<br>We'll find a way"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500"></div>
             </div>
         </div>
 
         <div class="page">
             <div class="front">
-                <div class="sticky-note" style="background: var(--note-red);">Verse 3</div>
-                <div class="handwritten">"Hold me down, all the world's asleep...<br>I need you now, you've knocked me off my feet."</div>
+                <div class="sticky-note" style="background: var(--note-red);">Together</div>
+                <div class="handwritten">"To do what we've done"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=500"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">Verse 3</div>
-                <div class="handwritten">"I dream of you, we talk of growing old...<br>But you said please don't."</div>
+                <div class="sticky-note" style="background: var(--note-blue);">Shining</div>
+                <div class="handwritten">"Let me be the one who shines with you"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500"></div>
             </div>
         </div>
 
         <div class="page">
             <div class="front">
-                <div class="sticky-note" style="background: var(--note-yellow); color: black;">My Everything</div>
-                <div class="handwritten">"Don't you know that you're my everything?"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Outro</div>
-                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: calc(20px + 1.2vw); margin-top: 25px;">
-                    "And we can slide away...<br>slide away...<br>slide away."
+                <div class="sticky-note" style="background: var(--note-green);">Slide Away</div>
+                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: calc(22px + 1vw);">
+                    "And we can slide away"
                 </div>
                 <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=500"></div>
+            </div>
+            <div class="back">
+                <div class="sticky-note" style="background: var(--note-red);">Outro</div>
+                <div class="handwritten" style="font-weight: bold; font-size: calc(24px + 1vw); line-height: 1.6; margin-top: 15%;">
+                    "Slide away<br>Slide away<br>Away"
+                </div>
             </div>
         </div>
 
@@ -253,21 +251,17 @@
         
         let musicStarted = false;
 
-        // Atur posisi z-index awal agar menumpuk rapi dari depan ke belakang
         function updateZIndex() {
             pages.forEach((page, index) => {
                 if (page.classList.contains('flipped')) {
-                    // Jika halaman sudah dibuka ke kiri, letakkan di tumpukan atas sebelah kiri
                     page.style.zIndex = 20 + index;
                 } else {
-                    // Jika halaman belum dibuka, tumpuk secara terbalik (makin ke belakang makin kecil)
                     page.style.zIndex = 10 - index;
                 }
             });
         }
         updateZIndex();
 
-        // Putar musik otomatis pada ketukan pertama
         function playMusic() {
             if (!musicStarted) {
                 audio.play()
@@ -275,44 +269,37 @@
                     musicStarted = true;
                     document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away 🎸";
                 })
-                .catch(err => console.log("Audio diblokir browser, ketuk sekali lagi."));
+                .catch(err => console.log("Audio waiting for tap..."));
             }
         }
 
-        // Minta Fullscreen otomatis ke browser
         function requestFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    console.log("Gagal masuk fullscreen otomatis: ", err.message);
+                    console.log("Fullscreen request bypassed.");
                 });
             }
         }
 
-        // Listener klik di setiap lembaran halaman buku
         pages.forEach((page, index) => {
             page.addEventListener('click', (e) => {
                 playMusic();
                 
-                // Masuk fullscreen otomatis di halaman cover pertama
                 if (index === 0) {
                     requestFullscreen();
                 }
 
                 if (page.classList.contains('flipped')) {
-                    // Tutup halaman kembali ke kanan
                     page.classList.remove('flipped');
                 } else {
-                    // Buka halaman ke kiri
                     page.classList.add('flipped');
                 }
                 
-                // Update urutan tumpukan z-index setelah lembaran berpindah
                 updateZIndex();
                 e.stopPropagation();
             });
         });
 
-        // Tombol manual layar penuh di pojok kiri bawah
         fsBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (!document.fullscreenElement) {

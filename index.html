@@ -25,6 +25,7 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
+            flex-direction: column;
         }
 
         /* Container Buku */
@@ -130,17 +131,23 @@
             background: rgba(0,0,0,0.5);
             padding: 5px 15px;
             border-radius: 20px;
+            pointer-events: none;
         }
 
         /* Animasi Halaman */
-        .flipped { transform: rotateY(-180deg); z-index: 10 !important; }
+        .flipped { transform: rotateY(-180deg) !important; z-index: 10 !important; }
 
-        #youtube-player { display: none; }
+        /* Wadah Pemutar Spotify agar Tetap Rapi di Bagian Bawah */
+        .music-container {
+            margin-top: 15px;
+            width: 360px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
-
-    <div id="youtube-player"></div>
 
     <div class="book-container">
         <div class="page" style="z-index: 5;">
@@ -189,32 +196,18 @@
         </div>
     </div>
 
+    <div class="music-container">
+        <iframe id="spotify-player" src="https://open.spotify.com/embed/track/47g37S3g4g79g79g4g?utm_source=generator&autoplay=1" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+
     <div class="hint">Sentuh tepi kanan buku untuk membalik halaman</div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        let player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: 'Wp0hWIO3AMU', // Slide Away - Miley Cyrus
-                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'Wp0hWIO3AMU' }
-            });
-        }
-
         const pages = document.querySelectorAll('.page');
-        let musicStarted = false;
 
         pages.forEach((page, index) => {
             page.addEventListener('click', () => {
-                // Jalankan musik saat pertama kali klik
-                if(!musicStarted && player) {
-                    player.playVideo();
-                    musicStarted = true;
-                }
-
-                // Efek Flip
+                // Efek Flip Halaman
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
                     // Mengatur ulang z-index saat halaman ditutup

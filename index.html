@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrapbook For You ♡</title>
+    <title>Our Slide Away Jurnal ♡</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
@@ -12,13 +12,15 @@
             --bg-paper: #e8e4da;
             --note-red: #cc4444;
             --note-yellow: #f1c40f;
+            --note-blue: #3498db;
+            --note-green: #2ecc71;
             --text-hand: 'Gochi Hand', cursive;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: #333; /* Background gelap agar buku menonjol */
+            background-color: #222; /* Latar belakang gelap agar scrapbook lebih kontras */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,7 +35,7 @@
         .book-container {
             position: relative;
             width: 360px;
-            height: 500px;
+            height: 520px;
             perspective: 1500px;
         }
 
@@ -56,7 +58,7 @@
             height: 100%;
             backface-visibility: hidden;
             background-color: var(--bg-paper);
-            padding: 30px;
+            padding: 25px 30px;
             border: 1px solid #c4c1b5;
             box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
             display: flex;
@@ -71,58 +73,56 @@
         /* Gaya Bingkai Foto Polaroid */
         .photo-frame {
             background: white;
-            padding: 10px 10px 35px 10px;
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            padding: 10px 10px 30px 10px;
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
             width: 85%;
             margin: 10px auto;
-            transform: rotate(-2deg);
         }
 
         .photo-frame img {
             width: 100%;
-            height: 180px;
+            height: 160px;
             object-fit: cover;
         }
 
         /* Catatan Tempel (Sticky Notes) */
         .sticky-note {
-            background-color: var(--note-red);
             color: white;
-            padding: 10px;
+            padding: 8px 12px;
             font-family: var(--text-hand);
-            font-size: 24px;
+            font-size: 20px;
             width: fit-content;
-            margin: 10px 0;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            transform: rotate(2deg);
+            margin: 5px 0;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.15);
         }
 
         /* Tulisan Tangan */
         .handwritten {
             font-family: var(--text-hand);
-            font-size: 32px;
+            font-size: 26px;
             color: #333;
-            margin-top: 15px;
+            margin-top: 10px;
             line-height: 1.2;
+            text-align: center;
         }
 
-        /* Dekorasi Tambahan */
+        /* Dekorasi Cover Depan & Belakang */
         .cover-page {
-            background-color: #b33939;
+            background: linear-gradient(135deg, #b33939 0%, #8c2a2a 100%);
             color: white;
             justify-content: center;
             text-align: center;
-            border: 5px solid #8c2a2a;
+            border: 5px solid #fff3d1;
         }
 
         .hint {
             position: fixed;
             bottom: 20px;
             color: white;
-            font-size: 12px;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 15px;
+            font-size: 11px;
+            background: rgba(0,0,0,0.6);
+            padding: 6px 16px;
             border-radius: 20px;
             pointer-events: none;
             z-index: 99;
@@ -131,14 +131,14 @@
         /* Animasi Halaman */
         .flipped { transform: rotateY(-180deg) !important; z-index: 10 !important; }
 
-        /* Status Musik Melayang */
+        /* Status Audio Melayang */
         .music-status {
             position: fixed;
             top: 15px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             color: #fff;
-            padding: 5px 10px;
+            padding: 6px 12px;
             font-size: 11px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
@@ -153,56 +153,113 @@
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap layar untuk musik</div>
+    <div class="music-status" id="status-text">🎵 Tap halaman untuk mulai & putar musik</div>
 
     <div class="book-container">
-        <div class="page" style="z-index: 5;">
+        
+        <div class="page" style="z-index: 9;">
             <div class="front cover-page">
-                <div style="font-size: 50px;">📖</div>
-                <h1 style="font-family: 'Indie Flower';">Scrapbook Kita</h1>
-                <p style="margin-top: 10px;">Sentuh untuk membuka ✨</p>
+                <div style="font-size: 50px; animation: bounce 2s infinite;">📖</div>
+                <h1 style="font-family: 'Indie Flower'; font-size: 32px; letter-spacing: 1px;">Our Jurnal</h1>
+                <p style="margin-top: 15px; font-size: 13px; font-style: italic; opacity: 0.8;">"Slide Away — A Story About Us"</p>
+                <p style="margin-top: 30px; font-size: 11px; color: #fff3d1;">Tap to open & play music ✨</p>
             </div>
             <div class="back">
-                <div class="sticky-note">I Said...</div>
-                <div class="handwritten">Maybe...</div>
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400" alt="Foto1">
+                <div class="sticky-note" style="background-color: var(--note-red); transform: rotate(-2deg);">Chapter 1</div>
+                <div class="handwritten" style="text-align: left;">"Once upon a time, it was made for us, woke up one day, it had turned to dust..."</div>
+                <div class="photo-frame" style="transform: rotate(2deg);">
+                    <img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400" alt="Foto 1">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 8;">
+            <div class="front">
+                <div class="sticky-note" style="background-color: var(--note-yellow); color: #222; transform: rotate(3deg);">The Beginning</div>
+                <div class="handwritten">"Baby, we were found, but now we're lost... so it's time to let it go."</div>
+                <div class="photo-frame" style="transform: rotate(-3deg);">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400" alt="Foto 2">
+                </div>
+            </div>
+            <div class="back">
+                <div class="sticky-note" style="background-color: var(--note-blue); transform: rotate(-1deg);">Moving On</div>
+                <div class="handwritten">"I want my house in the hills, don't want the whiskey and pills..."</div>
+                <div class="photo-frame" style="transform: rotate(2deg);">
+                    <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400" alt="Foto 3">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 7;">
+            <div class="front">
+                <div class="sticky-note" style="background-color: var(--note-green); transform: rotate(2deg);">The Chorus 🎶</div>
+                <div class="handwritten" style="font-size: 28px; color: #b33939;">"So won't you slide away? Back to the ocean, I'll go back to the city lights..."</div>
+                <div class="photo-frame" style="transform: rotate(-2deg);">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" alt="Foto 4">
+                </div>
+            </div>
+            <div class="back">
+                <div class="sticky-note" style="background-color: var(--note-red); transform: rotate(-3deg);">Letting Go</div>
+                <div class="handwritten">"So won't you slide away? Back to the ocean, la-la-la, won't you slide away?"</div>
+                <div class="photo-frame" style="transform: rotate(3deg);">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Foto 5">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 6;">
+            <div class="front">
+                <div class="sticky-note" style="background-color: var(--note-yellow); color: #222; transform: rotate(1deg);">Growing Up</div>
+                <div class="handwritten">"Hold on, we're not seventeen, I'm not who I used to be..."</div>
+                <div class="photo-frame" style="transform: rotate(-1deg);">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400" alt="Foto 6">
+                </div>
+            </div>
+            <div class="back">
+                <div class="sticky-note" style="background-color: var(--note-blue); transform: rotate(-2deg);">Realization</div>
+                <div class="handwritten">"You say that everything changed... You're right, we're grown now."</div>
+                <div class="photo-frame" style="transform: rotate(2deg);">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400" alt="Foto 7">
+                </div>
+            </div>
+        </div>
+
+        <div class="page" style="z-index: 5;">
+            <div class="front">
+                <div class="sticky-note" style="background-color: var(--note-green); transform: rotate(3deg);">Deep Feelings</div>
+                <div class="handwritten">"So won't you slide away? Back to the ocean, I'll go back to the city lights..."</div>
+                <div class="photo-frame" style="transform: rotate(-3deg);">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400" alt="Foto 8">
+                </div>
+            </div>
+            <div class="back">
+                <div class="sticky-note" style="background-color: var(--note-red); transform: rotate(1deg);">Memory Lane</div>
+                <div class="handwritten">"So won't you slide away? Back to the ocean, la-la-la, won't you slide away?"</div>
+                <div class="photo-frame" style="transform: rotate(-1deg);">
+                    <img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=400" alt="Foto 9">
                 </div>
             </div>
         </div>
 
         <div class="page" style="z-index: 4;">
             <div class="front">
-                <div class="handwritten">You're gonna be the one...</div>
-                <div class="photo-frame" style="transform: rotate(3deg); background: #fff;">
-                    <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400" alt="Foto2">
-                </div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">That Saves Me!</div>
-            </div>
-            <div class="back">
-                <div class="handwritten">And After All...</div>
-                <div class="photo-frame">
-                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400" alt="Foto3">
-                </div>
-            </div>
-        </div>
-
-        <div class="page" style="z-index: 3;">
-            <div class="front">
-                <div class="sticky-note">Slide Away 🎶</div>
-                <div class="handwritten">You're My Wonderwall & Everything.</div>
-                <div class="photo-frame" style="transform: scale(1.1) rotate(0deg);">
-                    <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400" alt="Foto4">
+                <div class="sticky-note" style="background-color: var(--note-yellow); color: #222; transform: rotate(-2deg);">The Outro</div>
+                <div class="handwritten" style="font-size: 28px;">"Slide away... Back to the ocean... It's time to let it go."</div>
+                <div class="photo-frame" style="transform: rotate(3deg);">
+                    <img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400" alt="Foto 10">
                 </div>
             </div>
             <div class="back cover-page">
-                <h2>I Love You! ❤️</h2>
-                <p>Klik lagi untuk menutup</p>
+                <div style="font-size: 40px;">🌸🏡🌸</div>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #fff3d1; margin-top: 15px;">The End.</h2>
+                <p style="font-size: 13px; font-style: italic; margin-top: 10px;">"Thank you for being part of my journey."</p>
+                <p style="font-size: 11px; margin-top: 30px; opacity: 0.7;">Klik untuk menutup jurnal</p>
             </div>
         </div>
+
     </div>
 
-    <div class="hint">Sentuh buku untuk membalik halaman</div>
+    <div class="hint">Sentuh tepi kanan halaman untuk membuka halaman baru</div>
 
     <script>
         const pages = document.querySelectorAll('.page');
@@ -210,7 +267,7 @@
         const statusText = document.getElementById('status-text');
         let musicStarted = false;
 
-        // Fungsi memutar musik pada interaksi pertama pengguna
+        // Putar audio secara otomatis pada interaksi pertama pengguna di seluruh layar
         document.body.addEventListener('click', () => {
             if (!musicStarted) {
                 audio.play()
@@ -219,23 +276,25 @@
                         statusText.innerText = "🔊 Now Playing: Slide Away 🎶";
                     })
                     .catch((error) => {
-                        console.log("Audio play blocked/failed:", error);
-                        statusText.innerText = "⚠️ Klik sekali lagi untuk memutar musik";
+                        console.log("Browser block bypass failed:", error);
+                        statusText.innerText = "⚠️ Klik lagi untuk memutar musik";
                     });
             }
         });
 
-        // Efek Membalik Halaman
+        // Logika transisi membalik halaman interaktif
         pages.forEach((page, index) => {
             page.addEventListener('click', () => {
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
+                    // Atur ulang z-index tumpukan lembaran setelah halaman ditutup
                     setTimeout(() => {
-                        page.style.zIndex = 5 - index;
+                        page.style.zIndex = 9 - index;
                     }, 500);
                 } else {
                     page.classList.add('flipped');
-                    page.style.zIndex = 10 + index;
+                    // Naikkan z-index agar lembaran yang sedang dibuka berada paling atas
+                    page.style.zIndex = 20 + index;
                 }
             });
         });

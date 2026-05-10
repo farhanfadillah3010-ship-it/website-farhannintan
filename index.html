@@ -31,50 +31,67 @@
             user-select: none;
         }
 
-        /* Container Utama Buku */
+        /* Container Utama */
         .book-container {
             position: relative;
-            width: 360px;
-            height: 520px;
-            perspective: 1500px;
+            width: 350px;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Lembaran Kertas */
+        /* Lembaran Halaman menggunakan Transisi Geser */
         .page {
             width: 100%;
             height: 100%;
             position: absolute;
-            top: 0; left: 0;
-            transform-origin: left;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
-        }
-
-        .front, .back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
+            top: 0;
+            left: 0;
             background-color: var(--bg-paper);
             padding: 30px;
-            border: 1px solid #c4c1b5;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             background-image: linear-gradient(90deg, rgba(200,200,200,.1) 1px, transparent 1px);
             background-size: 20px 20px;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+            z-index: 1;
+            opacity: 0;
+            transform: translateX(100%);
+            pointer-events: none;
         }
 
-        /* Sisi belakang diputar 180 derajat */
-        .back { 
-            transform: rotateY(180deg); 
+        /* Halaman Aktif */
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            z-index: 2;
         }
 
-        /* Hiasan & Frame Foto */
+        /* Halaman yang Sudah Dilewati akan bergeser ke kiri */
+        .page.exit {
+            opacity: 0;
+            transform: translateX(-100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Desain Cover */
+        .cover {
+            background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 6px double #fff3d1;
+        }
+
+        /* Elemen Hiasan Jurnal */
         .photo-frame {
             background: white;
             padding: 8px 8px 25px 8px;
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
             width: 90%;
             margin: auto auto 10px auto;
@@ -82,8 +99,8 @@
         .photo-frame img { width: 100%; height: 160px; object-fit: cover; }
 
         .sticky-note {
-            color: white; padding: 8px 12px;
-            font-family: var(--text-hand); font-size: 18px;
+            color: white; padding: 6px 12px;
+            font-family: var(--text-hand); font-size: 16px;
             width: fit-content; margin: 5px 0;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
@@ -93,23 +110,17 @@
             color: #333; margin-top: 15px; text-align: center; line-height: 1.4;
         }
 
-        /* Cover Depan & Belakang */
-        .cover {
-            background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
-            color: white; justify-content: center; align-items: center; text-align: center;
-            border: 6px double #fff3d1;
-        }
-
-        /* Kelas CSS untuk efek membalik halaman */
-        .flipped { 
-            transform: rotateY(-180deg) !important; 
-        }
-
-        /* Status Bar Putar Musik */
+        /* Status Bar Lagu */
         .music-status {
             position: fixed; top: 15px; right: 15px; color: #fff;
             font-size: 11px; background: rgba(255,255,255,0.1);
             padding: 5px 12px; border-radius: 15px; z-index: 100;
+        }
+
+        .instruction {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -119,78 +130,75 @@
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap halaman untuk putar musik</div>
+    <div class="music-status" id="status-text">🎵 Tap layar untuk putar musik</div>
 
     <div class="book-container" id="book">
         
-        <div class="page" style="z-index: 10;">
-            <div class="front cover">
-                <div style="font-size: 60px;">🎸</div>
-                <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
-                <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
-                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka ✨</p>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-                <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
-            </div>
+        <div class="page active cover" id="p1">
+            <div style="font-size: 60px;">🎸</div>
+            <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
+            <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
+            <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka & putar musik ✨</p>
         </div>
 
-        <div class="page" style="z-index: 9;">
-            <div class="front">
-                <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
-                <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Prayers</div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
-                <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
-            </div>
+        <div class="page" id="p2">
+            <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
+            <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
+            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
         </div>
 
-        <div class="page" style="z-index: 8;">
-            <div class="front">
-                <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
-                <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Two of a Kind</div>
-                <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
-            </div>
+        <div class="page" id="p3">
+            <div class="sticky-note" style="background: var(--note-yellow); color: black;">Prayers</div>
+            <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
+            <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
         </div>
 
-        <div class="page" style="z-index: 7;">
-            <div class="front">
-                <div class="handwritten">"Let me be the one who shines with you..."</div>
-                <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-red); margin-left: auto;">Together</div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Outro</div>
-                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px; margin-top: 25px;">
-                    "And we can slide away...<br>slide away...<br>slide away."
-                </div>
-                <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
-            </div>
+        <div class="page" id="p4">
+            <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
+            <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
+            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
         </div>
 
-        <div class="page" style="z-index: 6;">
-            <div class="front cover">
-                <h1 style="font-family: 'Indie Flower';">The End</h1>
-                <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
-                <p style="margin-top: 30px; font-size: 30px;">❤️</p>
+        <div class="page" id="p5">
+            <div class="sticky-note" style="background: var(--note-green);">Together</div>
+            <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
+            <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
+        </div>
+
+        <div class="page" id="p6">
+            <div class="sticky-note" style="background: var(--note-red);">Two of a Kind</div>
+            <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
+            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
+        </div>
+
+        <div class="page" id="p7">
+            <div class="sticky-note" style="background: var(--note-blue);">My Star</div>
+            <div class="handwritten">"Let me be the one who shines with you..."</div>
+            <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
+        </div>
+
+        <div class="page" id="p8">
+            <div class="sticky-note" style="background: var(--note-green);">Outro</div>
+            <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px; margin-top: 25px;">
+                "And we can slide away...<br>slide away...<br>slide away."
             </div>
-            <div class="back"></div>
+            <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
+        </div>
+
+        <div class="page cover" id="p9">
+            <h1 style="font-family: 'Indie Flower';">The End</h1>
+            <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
+            <p style="margin-top: 30px; font-size: 30px;">❤️</p>
         </div>
 
     </div>
 
+    <div class="instruction">Ketuk di mana saja untuk lanjut ke halaman berikutnya</div>
+
     <script>
         const pages = document.querySelectorAll('.page');
         const audio = document.getElementById('audio-player');
+        let currentPageIndex = 0;
         let musicStarted = false;
 
         function playMusic() {
@@ -201,34 +209,31 @@
                     document.getElementById('status-text').innerText = "🔊 Playing: Oasis - Slide Away 🎸";
                 })
                 .catch(err => {
-                    console.log("Audio diblokir browser, ketuk sekali lagi.");
+                    console.log("Menunggu ketukan berikutnya untuk memutar audio...");
                 });
             }
         }
 
-        document.body.addEventListener('click', playMusic);
+        // Jalankan transisi geser halaman setiap kali layar diketuk
+        document.body.addEventListener('click', () => {
+            playMusic();
 
-        pages.forEach((page, index) => {
-            // Memberikan z-index awal secara berurutan
-            const baseZIndex = 10 - index;
-            page.style.zIndex = baseZIndex;
+            if (currentPageIndex < pages.length - 1) {
+                // Beri efek keluar (exit) pada halaman saat ini
+                pages[currentPageIndex].classList.remove('active');
+                pages[currentPageIndex].classList.add('exit');
 
-            page.addEventListener('click', (e) => {
-                playMusic();
-
-                if (page.classList.contains('flipped')) {
-                    page.classList.remove('flipped');
-                    setTimeout(() => {
-                        page.style.zIndex = baseZIndex;
-                    }, 300);
-                } else {
-                    page.classList.add('flipped');
-                    // Saat dibalik ke kiri, naikkan z-index agar menumpuk di atas lembaran kiri
-                    page.style.zIndex = 20 + index;
-                }
-                
-                e.stopPropagation();
-            });
+                // Pindah ke halaman berikutnya
+                currentPageIndex++;
+                pages[currentPageIndex].classList.add('active');
+            } else {
+                // Jika sudah sampai halaman terakhir, ketukan berikutnya akan me-reset kembali ke halaman 1
+                pages.forEach(page => {
+                    page.classList.remove('active', 'exit');
+                });
+                currentPageIndex = 0;
+                pages[currentPageIndex].classList.add('active');
+            }
         });
     </script>
 </body>

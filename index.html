@@ -65,12 +65,12 @@
             background-size: 20px 20px;
         }
 
-        /* Sisi belakang harus diputar 180 derajat */
+        /* Sisi belakang diputar 180 derajat */
         .back { 
             transform: rotateY(180deg); 
         }
 
-        /* Hiasan & Foto */
+        /* Hiasan & Frame Foto */
         .photo-frame {
             background: white;
             padding: 8px 8px 25px 8px;
@@ -93,19 +93,19 @@
             color: #333; margin-top: 15px; text-align: center; line-height: 1.4;
         }
 
-        /* Tema Cover Gelap Elegan khas Oasis */
+        /* Cover Depan & Belakang */
         .cover {
             background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
             color: white; justify-content: center; align-items: center; text-align: center;
             border: 6px double #fff3d1;
         }
 
-        /* Efek Membalik ke Kiri */
+        /* Kelas CSS untuk efek membalik halaman */
         .flipped { 
             transform: rotateY(-180deg) !important; 
         }
 
-        /* Status Bar Audio */
+        /* Status Bar Putar Musik */
         .music-status {
             position: fixed; top: 15px; right: 15px; color: #fff;
             font-size: 11px; background: rgba(255,255,255,0.1);
@@ -119,7 +119,7 @@
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap halaman untuk putar musik & lirik otomatis</div>
+    <div class="music-status" id="status-text">🎵 Tap halaman untuk putar musik</div>
 
     <div class="book-container" id="book">
         
@@ -131,7 +131,7 @@
                 <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka ✨</p>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Pre-Chorus</div>
+                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
                 <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
             </div>
@@ -164,33 +164,9 @@
 
         <div class="page" style="z-index: 7;">
             <div class="front">
-                <div class="handwritten">"Slide away, and give it all you've got...<br>My today, fell in from the top."</div>
+                <div class="handwritten">"Let me be the one who shines with you..."</div>
                 <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-            </div>
-            <div class="back">
-                <div class="handwritten">"I dream of you, and all the things you say...<br>I wonder where you are now."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400"></div>
-            </div>
-        </div>
-
-        <div class="page" style="z-index: 6;">
-            <div class="front">
-                <div class="sticky-note" style="background: var(--note-blue);">Verse 2</div>
-                <div class="handwritten">"Hold me down, all the world's asleep...<br>I need you now, you've knocked me off my feet."</div>
-                <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=400"></div>
-            </div>
-            <div class="back">
-                <div class="handwritten">"I dream of you, we talk of growing old...<br>But you said please don't."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">My Star</div>
-            </div>
-        </div>
-
-        <div class="page" style="z-index: 5;">
-            <div class="front">
-                <div class="handwritten">"Don't you know that you're my everything?"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"></div>
+                <div class="sticky-note" style="background: var(--note-red); margin-left: auto;">Together</div>
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-green);">Outro</div>
@@ -201,7 +177,7 @@
             </div>
         </div>
 
-        <div class="page" style="z-index: 4;">
+        <div class="page" style="z-index: 6;">
             <div class="front cover">
                 <h1 style="font-family: 'Indie Flower';">The End</h1>
                 <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
@@ -217,7 +193,6 @@
         const audio = document.getElementById('audio-player');
         let musicStarted = false;
 
-        // Fungsi menyalakan musik otomatis saat layar diketuk
         function playMusic() {
             if (!musicStarted) {
                 audio.play()
@@ -226,16 +201,15 @@
                     document.getElementById('status-text').innerText = "🔊 Playing: Oasis - Slide Away 🎸";
                 })
                 .catch(err => {
-                    console.log("Audio diblokir browser, ketuk sekali lagi untuk memutar.");
+                    console.log("Audio diblokir browser, ketuk sekali lagi.");
                 });
             }
         }
 
-        // Pemicu interaksi pertama
         document.body.addEventListener('click', playMusic);
 
-        // Logika membalik halaman yang diperbaiki 100% bebas macet
         pages.forEach((page, index) => {
+            // Memberikan z-index awal secara berurutan
             const baseZIndex = 10 - index;
             page.style.zIndex = baseZIndex;
 
@@ -243,16 +217,13 @@
                 playMusic();
 
                 if (page.classList.contains('flipped')) {
-                    // Tutup halaman ke kanan
                     page.classList.remove('flipped');
-                    // Kembalikan z-index semula setelah animasi selesai
                     setTimeout(() => {
                         page.style.zIndex = baseZIndex;
                     }, 300);
                 } else {
-                    // Buka halaman ke kiri
                     page.classList.add('flipped');
-                    // Naikkan z-index agar halaman yang terbuka tidak tertimpa halaman setelahnya
+                    // Saat dibalik ke kiri, naikkan z-index agar menumpuk di atas lembaran kiri
                     page.style.zIndex = 20 + index;
                 }
                 

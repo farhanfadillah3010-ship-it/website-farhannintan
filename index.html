@@ -4,444 +4,294 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Away - Our Memory Book</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #f5f2e9;
-            --paper-color: #fdfbf7;
-            --accent-brown: #8d775f;
-            --soft-gold: #c5a059;
-            --text-dark: #4a4238;
-            --shadow: rgba(0, 0, 0, 0.15);
+            --bg-warm: #f5f0e1;
+            --beige: #d7ccc8;
+            --brown-soft: #8d6e63;
+            --gold: #d4af37;
+            --champagne: #f7e7ce;
+            --amber-glow: rgba(255, 191, 0, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            font-family: 'Cormorant Garamond', serif;
+            background-color: #1a1a1a;
             overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: none; /* Custom cursor used later */
+            font-family: 'Cormorant Garamond', serif;
+            color: #4e342e;
         }
 
-        /* Background Effects */
-        .grain-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/p6.png');
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: 50;
+        /* --- Global Cinematic Effects --- */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
+            opacity: 0.05; pointer-events: none; z-index: 100;
         }
 
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+        .light-leak {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent 30%, var(--amber-glow) 50%, transparent 70%);
+            mix-blend-mode: screen; pointer-events: none; z-index: 90;
+            animation: moveLeak 8s infinite alternate;
         }
 
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, var(--soft-gold) 0%, transparent 70%);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 1000;
-            box-shadow: 0 0 15px var(--soft-gold);
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease;
+        @keyframes moveLeak { from { transform: translateX(-20%); } to { transform: translateX(20%); } }
+
+        /* --- Custom Cursor --- */
+        #cursor {
+            position: fixed; width: 15px; height: 15px; background: white;
+            border-radius: 50%; pointer-events: none; z-index: 1000;
+            box-shadow: 0 0 15px white, 0 0 30px var(--gold);
+            transition: transform 0.1s; mix-blend-mode: difference;
         }
 
-        /* Cover Page */
+        /* --- Cover Section --- */
         #cover {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1516053303025-5d9f55fbb902?q=80&w=2000') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1s ease;
+            position: fixed; width: 100%; height: 100%;
+            background: radial-gradient(circle, #fcfaf2 0%, #dcd0c0 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 50; transition: 2s cubic-bezier(0.7, 0, 0.3, 1);
             text-align: center;
-            color: #fff;
         }
 
-        #cover h1 {
+        #cover.opened { transform: translateY(-100%) scale(1.1); opacity: 0; }
+
+        .cover-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            letter-spacing: 10px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            font-size: 6rem; font-style: italic; color: #3d2b1f;
+            letter-spacing: -2px; margin-bottom: 10px;
+            animation: shimmer 3s infinite;
         }
 
-        #cover p {
-            font-size: 1.5rem;
-            font-style: italic;
-            opacity: 0.9;
+        @keyframes shimmer {
+            0%, 100% { text-shadow: 0 0 10px transparent; }
+            50% { text-shadow: 0 0 20px var(--gold); color: #6d4c41; }
         }
 
         .instruction {
-            margin-top: 50px;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            animation: pulse 2s infinite;
+            font-size: 1rem; letter-spacing: 5px; text-transform: uppercase;
+            opacity: 0.6; margin-top: 30px; animation: breathe 2s infinite;
         }
 
-        /* Scrapbook Container */
-        .scrapbook {
-            width: 90%;
-            max-width: 600px;
-            height: 80vh;
-            position: relative;
-            perspective: 2000px;
-            display: none; /* Initially hidden */
-            z-index: 10;
+        @keyframes breathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+        /* --- Scrapbook Page Container --- */
+        #book-container {
+            width: 100vw; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            perspective: 2000px; background: #000;
         }
 
         .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--paper-color);
-            padding: 40px;
-            box-shadow: 10px 10px 30px var(--shadow);
-            border: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
-            transform-origin: left;
-            backface-visibility: hidden;
-            overflow: hidden;
+            position: absolute; width: 80%; max-width: 900px; height: 80%;
+            background: var(--bg-warm);
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px; border-radius: 2px;
+            transform-origin: left; transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
         }
 
-        .page::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 5%);
+        .page.active { display: flex; animation: pageIn 1.5s forwards; }
+
+        @keyframes pageIn {
+            from { transform: rotateY(-90deg); opacity: 0; }
+            to { transform: rotateY(0deg); opacity: 1; }
         }
 
-        .page.active {
-            transform: rotateY(0deg);
-            z-index: 2;
-            opacity: 1;
-        }
-
-        .page.flipped {
-            transform: rotateY(-180deg);
-            z-index: 1;
-            opacity: 0;
-        }
-
-        /* Content Styles */
+        /* --- Elements inside Pages --- */
         .polaroid {
-            background: white;
-            padding: 15px 15px 40px 15px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-            transform: rotate(-3deg);
-            animation: dangle 3s ease-in-out infinite;
-            margin-bottom: 30px;
-            position: relative;
+            background: white; padding: 15px 15px 50px 15px;
+            box-shadow: 5px 10px 20px rgba(0,0,0,0.2);
+            transform: rotate(-3deg); margin-bottom: 30px;
+            border: 1px solid #ddd; position: relative;
+            animation: floating 4s infinite ease-in-out;
         }
 
-        .polaroid img {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
-            filter: sepia(0.2) contrast(0.9);
+        @keyframes floating {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(-1deg) translateY(-10px); }
         }
 
-        .tape {
-            position: absolute;
-            top: -15px;
-            width: 100px;
-            height: 30px;
-            background: rgba(220, 200, 150, 0.5);
-            transform: rotate(2deg);
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        .photo-placeholder {
+            width: 300px; height: 350px; background: #e0e0e0;
+            background-size: cover; background-position: center;
         }
 
         .lyrics {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
-            color: var(--accent-brown);
-            text-align: center;
-            min-height: 2em;
+            font-size: 2.5rem; color: #5d4037; text-align: center;
+            margin-top: 20px;
         }
 
-        /* Controls */
+        .tape {
+            position: absolute; width: 100px; height: 30px;
+            background: rgba(212, 175, 55, 0.3);
+            top: -15px; left: 50%; transform: translateX(-50%) rotate(2deg);
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- Controls --- */
         .controls {
-            position: fixed;
-            bottom: 30px;
-            display: flex;
-            gap: 20px;
-            z-index: 60;
+            position: fixed; bottom: 50px; z-index: 80;
+            display: flex; gap: 40px;
         }
 
-        .btn {
-            background: transparent;
-            border: 1px solid var(--accent-brown);
-            padding: 10px 20px;
-            color: var(--accent-brown);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            cursor: pointer;
-            font-family: 'Cormorant Garamond', serif;
+        button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white; padding: 10px 25px; border-radius: 20px;
+            backdrop-filter: blur(10px); transition: 0.3s;
+            font-family: 'Playfair Display'; text-transform: uppercase;
         }
 
-        .btn:hover {
-            background: var(--accent-brown);
-            color: #fff;
+        button:hover { background: var(--gold); color: black; transform: scale(1.1); }
+
+        #ending {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 200; display: none;
+            align-items: center; justify-content: center;
+            color: var(--gold); font-size: 2rem;
         }
 
-        .music-control {
-            position: fixed;
-            top: 20px; right: 20px;
-            z-index: 60;
-            opacity: 0.6;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-
-        @keyframes dangle {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .particle {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float linear infinite;
-        }
-
-        /* Typist effect class */
-        .typing::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        @media (max-width: 600px) {
-            #cover h1 { font-size: 3rem; }
-            .polaroid img { width: 180px; height: 180px; }
-            .lyrics { font-size: 1.4rem; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="cursor" id="cursor"></div>
-    <div class="grain-overlay"></div>
-    <div class="particles" id="particles"></div>
+    <div id="cursor"></div>
+    <div class="grain"></div>
+    <div class="light-leak"></div>
 
-    <!-- Background Music -->
-    <audio id="bgm" loop>
-        <source src="slide-away.mp3" type="audio/mpeg">
-        <!-- Alternatif URL jika file tidak ada -->
-    </audio>
+    <!-- Audio -->
+    <audio id="bgm" src="slide-away.mp3" loop></audio>
 
-    <div class="music-control">
-        <button class="btn" onclick="toggleMusic()" style="font-size: 12px;">Music: On/Off</button>
+    <!-- Cover -->
+    <section id="cover" onclick="openBook()">
+        <div class="cover-content">
+            <p style="letter-spacing: 10px; margin-bottom: 20px;">MEMORIES</p>
+            <h1>Slide Away</h1>
+            <p style="font-family: 'Dancing Script'; font-size: 1.5rem;">A little memory book for us.</p>
+            <div class="instruction">Tap anywhere to open</div>
+        </div>
+    </section>
+
+    <!-- Scrapbook -->
+    <div id="book-container">
+        <div class="page active" id="p1">
+            <div class="tape"></div>
+            <div class="polaroid">
+                <div class="photo-placeholder" style="background-image: url('https://images.unsplash.com/photo-1516483642777-7043d8435165?auto=format&fit=crop&w=400')"></div>
+            </div>
+            <div class="lyrics">"Slide in baby, together we’ll fly"</div>
+        </div>
+
+        <div class="page" id="p2">
+            <div class="polaroid" style="transform: rotate(4deg);">
+                <div class="photo-placeholder" style="background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400')"></div>
+            </div>
+            <div class="lyrics">"I’ve tried praying but I don’t know what you’re saying to me"</div>
+        </div>
+
+        <div class="page" id="p3">
+            <div class="lyrics" style="font-size: 3.5rem;">"Now that you’re mine, we’ll find a way"</div>
+            <p style="margin-top: 20px; font-style: italic;">– Ever yours.</p>
+        </div>
+
+        <div class="page" id="p4">
+            <div class="polaroid">
+                <div class="photo-placeholder" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400')"></div>
+            </div>
+            <div class="lyrics">"Of chasing the sun..."</div>
+        </div>
+
+        <div class="page" id="p5">
+            <div class="lyrics">"Let me be the one who shines with you"</div>
+        </div>
+
+        <!-- Tambahkan halaman lainnya di sini dengan pola yang sama -->
+
+        <div class="page" id="pFinal">
+            <div class="lyrics" style="font-size: 4rem;">"And we can slide away..."</div>
+            <button onclick="showEnding()" style="margin-top: 30px;">Close the book</button>
+        </div>
+
+        <div class="controls" id="controls" style="display: none;">
+            <button onclick="prevPage()">Prev</button>
+            <button onclick="nextPage()">Next</button>
+        </div>
     </div>
 
-    <!-- COVER SECTION -->
-    <div id="cover" onclick="openBook()">
-        <h1>Slide Away</h1>
-        <p>A little memory book for us.</p>
-        <div class="instruction">Tap anywhere to open the memories</div>
-    </div>
-
-    <!-- SCRAPBOOK SECTION -->
-    <div class="scrapbook" id="scrapbook">
-        <!-- Pages will be generated here -->
-    </div>
-
-    <div class="controls" id="controls" style="display: none;">
-        <button class="btn" onclick="prevPage()">Prev</button>
-        <button class="btn" onclick="nextPage()">Next</button>
+    <div id="ending">
+        <div class="cover-content">
+            <h2 style="font-family: 'Playfair Display'; font-style: italic;">Some memories never fade.</h2>
+        </div>
     </div>
 
     <script>
-        const lyrics = [
-            "Slide in baby, together we’ll fly",
-            "I’ve tried praying but I don’t know what you’re saying to me",
-            "Now that you’re mine, we’ll find a way",
-            "Of chasing the sun",
-            "Let me be the one who shines with you",
-            "In the morning we don’t know what to do",
-            "Two of a kind, we’ll find a way",
-            "To do what we’ve done",
-            "Let me be the one who shines with you",
-            "And we can slide away..."
-        ];
-
-        // Ganti URL foto di sini dengan foto kamu
-        const images = [
-            "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=500",
-            "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=500",
-            "https://images.unsplash.com/photo-1516589174184-c68526514ec0?q=80&w=500",
-            "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=500",
-            "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?q=80&w=500",
-            "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=500",
-            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=500",
-            "https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=500",
-            "https://images.unsplash.com/photo-1464746109380-40181ce74a8e?q=80&w=500",
-            "https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=500"
-        ];
-
-        let currentPage = 0;
-        const totalPages = lyrics.length;
-        const scrapbook = document.getElementById('scrapbook');
-        const bgm = document.getElementById('bgm');
-
-        // Initialize Cursor
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.getElementById('cursor');
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Generate Pages
-        function createPages() {
-            lyrics.forEach((text, i) => {
-                const page = document.createElement('div');
-                page.className = `page ${i === 0 ? 'active' : ''}`;
-                page.style.zIndex = totalPages - i;
-                
-                page.innerHTML = `
-                    <div class="tape"></div>
-                    <div class="polaroid">
-                        <img src="${images[i]}" alt="Memories">
-                    </div>
-                    <div class="lyrics" id="lyric-${i}"></div>
-                    ${i === totalPages - 1 ? '<p style="margin-top:20px; font-weight:bold;">Some memories never fade.</p>' : ''}
-                `;
-                scrapbook.appendChild(page);
-            });
-        }
+        // Book Logic
+        let currentPage = 1;
+        const totalPages = document.querySelectorAll('.page').length;
+        const bgm = document.getElementById('bgm');
 
-        // Open Book Event
         function openBook() {
-            document.getElementById('cover').style.transform = 'translateY(-100%)';
-            document.getElementById('cover').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('cover').style.display = 'none';
-                scrapbook.style.display = 'block';
-                document.getElementById('controls').style.display = 'flex';
-                typeLyrics(0);
-            }, 1000);
-
-            // Play Music
-            bgm.play().catch(e => console.log("Music needs interaction first"));
-            createParticles();
-        }
-
-        // Typing Effect
-        function typeLyrics(index) {
-            const element = document.getElementById(`lyric-${index}`);
-            const text = lyrics[index];
-            element.innerHTML = "";
-            let i = 0;
-            element.classList.add('typing');
+            document.getElementById('cover').classList.add('opened');
+            document.getElementById('controls').style.display = 'flex';
+            bgm.play().catch(e => console.log("Audio play blocked by browser."));
             
-            function typing() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(typing, 70);
-                } else {
-                    element.classList.remove('typing');
-                }
-            }
-            typing();
+            // Camera zoom effect
+            document.getElementById('book-container').style.transition = "3s";
+            document.getElementById('book-container').style.transform = "scale(1.05)";
         }
 
-        // Navigation
         function nextPage() {
-            if (currentPage < totalPages - 1) {
-                const currentEl = document.getElementsByClassName('page')[currentPage];
-                currentEl.classList.add('flipped');
-                currentEl.classList.remove('active');
-                
+            if (currentPage < totalPages) {
+                document.getElementById(`p${getPageId(currentPage)}`).classList.remove('active');
                 currentPage++;
-                const nextEl = document.getElementsByClassName('page')[currentPage];
-                nextEl.classList.add('active');
-                typeLyrics(currentPage);
+                document.getElementById(`p${getPageId(currentPage)}`).classList.add('active');
             }
         }
 
         function prevPage() {
-            if (currentPage > 0) {
-                const currentEl = document.getElementsByClassName('page')[currentPage];
-                currentEl.classList.remove('active');
-                
+            if (currentPage > 1) {
+                document.getElementById(`p${getPageId(currentPage)}`).classList.remove('active');
                 currentPage--;
-                const prevEl = document.getElementsByClassName('page')[currentPage];
-                prevEl.classList.remove('flipped');
-                prevEl.classList.add('active');
-                typeLyrics(currentPage);
+                document.getElementById(`p${getPageId(currentPage)}`).classList.add('active');
             }
         }
 
-        // Music Control
-        function toggleMusic() {
-            if (bgm.paused) bgm.play();
-            else bgm.pause();
+        function getPageId(n) {
+            if (n === totalPages) return 'Final';
+            return n;
         }
 
-        // Floating particles (Light rain effect)
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.width = p.style.height = Math.random() * 5 + 2 + 'px';
-                p.style.animationDuration = Math.random() * 3 + 2 + 's';
-                p.style.delay = Math.random() * 5 + 's';
-                p.style.opacity = Math.random();
-                container.appendChild(p);
-            }
+        function showEnding() {
+            const end = document.getElementById('ending');
+            end.style.display = 'flex';
+            end.style.animation = 'fadeIn 3s forwards';
+            
+            let vol = 1;
+            const fadeAudio = setInterval(() => {
+                if (vol > 0.05) {
+                    vol -= 0.05;
+                    bgm.volume = vol;
+                } else {
+                    bgm.pause();
+                    clearInterval(fadeAudio);
+                }
+            }, 200);
         }
-
-        window.onload = createPages;
     </script>
 </body>
 </html>

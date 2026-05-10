@@ -31,53 +31,38 @@
             user-select: none;
         }
 
-        /* Container Utama */
-        .book-container {
-            position: relative;
+        /* Container Buku Utama */
+        .book-viewport {
             width: 350px;
             height: 500px;
+            position: relative;
             overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
-        /* Lembaran Halaman menggunakan Transisi Geser */
-        .page {
+        /* Container Panjang Penampung Semua Halaman */
+        .book-slider {
+            display: flex;
             width: 100%;
             height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Setiap Halaman Buku */
+        .page {
+            min-width: 100%;
+            height: 100%;
             background-color: var(--bg-paper);
-            padding: 30px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            background-image: linear-gradient(90deg, rgba(200,200,200,.1) 1px, transparent 1px);
+            position: relative;
+            background-image: linear-gradient(90deg, rgba(200,200,200,.15) 1px, transparent 1px);
             background-size: 20px 20px;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
-            z-index: 1;
-            opacity: 0;
-            transform: translateX(100%);
-            pointer-events: none;
         }
 
-        /* Halaman Aktif */
-        .page.active {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-            z-index: 2;
-        }
-
-        /* Halaman yang Sudah Dilewati akan bergeser ke kiri */
-        .page.exit {
-            opacity: 0;
-            transform: translateX(-100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Desain Cover */
+        /* Desain Cover Depan & Belakang */
         .cover {
             background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
             color: white;
@@ -87,7 +72,7 @@
             border: 6px double #fff3d1;
         }
 
-        /* Elemen Hiasan Jurnal */
+        /* Ornamen Scrapbook */
         .photo-frame {
             background: white;
             padding: 8px 8px 25px 8px;
@@ -106,11 +91,11 @@
         }
 
         .handwritten {
-            font-family: var(--text-hand); font-size: 22px;
+            font-family: var(--text-hand); font-size: 21px;
             color: #333; margin-top: 15px; text-align: center; line-height: 1.4;
         }
 
-        /* Status Bar Lagu */
+        /* Petunjuk Audio */
         .music-status {
             position: fixed; top: 15px; right: 15px; color: #fff;
             font-size: 11px; background: rgba(255,255,255,0.1);
@@ -130,75 +115,80 @@
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap layar untuk putar musik</div>
+    <div class="music-status" id="status-text">🎵 Tap layar untuk mulai musik</div>
 
-    <div class="book-container" id="book">
+    <div class="book-viewport" id="book">
         
-        <div class="page active cover" id="p1">
-            <div style="font-size: 60px;">🎸</div>
-            <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
-            <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
-            <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka & putar musik ✨</p>
-        </div>
-
-        <div class="page" id="p2">
-            <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-            <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
-            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
-        </div>
-
-        <div class="page" id="p3">
-            <div class="sticky-note" style="background: var(--note-yellow); color: black;">Prayers</div>
-            <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
-            <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
-        </div>
-
-        <div class="page" id="p4">
-            <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
-            <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
-            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
-        </div>
-
-        <div class="page" id="p5">
-            <div class="sticky-note" style="background: var(--note-green);">Together</div>
-            <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
-            <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
-        </div>
-
-        <div class="page" id="p6">
-            <div class="sticky-note" style="background: var(--note-red);">Two of a Kind</div>
-            <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
-            <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
-        </div>
-
-        <div class="page" id="p7">
-            <div class="sticky-note" style="background: var(--note-blue);">My Star</div>
-            <div class="handwritten">"Let me be the one who shines with you..."</div>
-            <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
-        </div>
-
-        <div class="page" id="p8">
-            <div class="sticky-note" style="background: var(--note-green);">Outro</div>
-            <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px; margin-top: 25px;">
-                "And we can slide away...<br>slide away...<br>slide away."
+        <div class="book-slider" id="slider">
+            
+            <div class="page cover">
+                <div style="font-size: 60px;">🎸</div>
+                <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
+                <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
+                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka & putar musik ✨</p>
             </div>
-            <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
-        </div>
 
-        <div class="page cover" id="p9">
-            <h1 style="font-family: 'Indie Flower';">The End</h1>
-            <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
-            <p style="margin-top: 30px; font-size: 30px;">❤️</p>
-        </div>
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
+                <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
+            </div>
 
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-yellow); color: black;">Prayers</div>
+                <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
+                <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
+            </div>
+
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
+                <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
+            </div>
+
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-green);">Together</div>
+                <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
+                <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
+            </div>
+
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-red);">Two of a Kind</div>
+                <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
+                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
+            </div>
+
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-blue);">My Star</div>
+                <div class="handwritten">"Let me be the one who shines with you..."</div>
+                <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
+            </div>
+
+            <div class="page">
+                <div class="sticky-note" style="background: var(--note-green);">Outro</div>
+                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px; margin-top: 25px;">
+                    "And we can slide away...<br>slide away...<br>slide away."
+                </div>
+                <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
+            </div>
+
+            <div class="page cover">
+                <h1 style="font-family: 'Indie Flower';">The End</h1>
+                <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
+                <p style="margin-top: 30px; font-size: 30px;">❤️</p>
+            </div>
+
+        </div>
     </div>
 
-    <div class="instruction">Ketuk di mana saja untuk lanjut ke halaman berikutnya</div>
+    <div class="instruction">Ketuk untuk menggeser ke halaman berikutnya</div>
 
     <script>
+        const slider = document.getElementById('slider');
         const pages = document.querySelectorAll('.page');
         const audio = document.getElementById('audio-player');
-        let currentPageIndex = 0;
+        
+        let currentPage = 0;
         let musicStarted = false;
 
         function playMusic() {
@@ -206,34 +196,26 @@
                 audio.play()
                 .then(() => {
                     musicStarted = true;
-                    document.getElementById('status-text').innerText = "🔊 Playing: Oasis - Slide Away 🎸";
+                    document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away";
                 })
                 .catch(err => {
-                    console.log("Menunggu ketukan berikutnya untuk memutar audio...");
+                    console.log("Menunggu interaksi browser...");
                 });
             }
         }
 
-        // Jalankan transisi geser halaman setiap kali layar diketuk
+        // Jalankan animasi geser buku saat layar diketuk
         document.body.addEventListener('click', () => {
             playMusic();
 
-            if (currentPageIndex < pages.length - 1) {
-                // Beri efek keluar (exit) pada halaman saat ini
-                pages[currentPageIndex].classList.remove('active');
-                pages[currentPageIndex].classList.add('exit');
-
-                // Pindah ke halaman berikutnya
-                currentPageIndex++;
-                pages[currentPageIndex].classList.add('active');
+            if (currentPage < pages.length - 1) {
+                currentPage++;
             } else {
-                // Jika sudah sampai halaman terakhir, ketukan berikutnya akan me-reset kembali ke halaman 1
-                pages.forEach(page => {
-                    page.classList.remove('active', 'exit');
-                });
-                currentPageIndex = 0;
-                pages[currentPageIndex].classList.add('active');
+                currentPage = 0; // Mengulang kembali ke cover depan jika sudah di akhir
             }
+
+            // Geser slider ke halaman aktif
+            slider.style.transform = `translateX(-${currentPage * 100}%)`;
         });
     </script>
 </body>

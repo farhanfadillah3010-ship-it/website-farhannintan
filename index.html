@@ -37,14 +37,6 @@
             perspective: 1500px;
         }
 
-        .book {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1s;
-        }
-
         /* Lembaran Halaman */
         .page {
             width: 100%;
@@ -139,7 +131,7 @@
         /* Animasi Halaman */
         .flipped { transform: rotateY(-180deg) !important; z-index: 10 !important; }
 
-        /* Status Musik Melayang Kecil di Pojok Atas */
+        /* Status Musik Melayang */
         .music-status {
             position: fixed;
             top: 15px;
@@ -158,7 +150,7 @@
 <body>
 
     <audio id="audio-player" loop>
-        <source src="https://pub-c5e31b5cdafb419a86a69d1874152aa6.r2.dev/slide-away.mp3" type="audio/mpeg">
+        <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
     <div class="music-status" id="status-text">🎵 Tap layar untuk musik</div>
@@ -218,7 +210,7 @@
         const statusText = document.getElementById('status-text');
         let musicStarted = false;
 
-        // Fungsi memutar lagu begitu ada klik pertama di body/layar
+        // Fungsi memutar musik pada interaksi pertama pengguna
         document.body.addEventListener('click', () => {
             if (!musicStarted) {
                 audio.play()
@@ -227,12 +219,13 @@
                         statusText.innerText = "🔊 Now Playing: Slide Away 🎶";
                     })
                     .catch((error) => {
-                        console.log("Gagal memutar audio otomatis:", error);
+                        console.log("Audio play blocked/failed:", error);
+                        statusText.innerText = "⚠️ Klik sekali lagi untuk memutar musik";
                     });
             }
         });
 
-        // Efek Flip Buku
+        // Efek Membalik Halaman
         pages.forEach((page, index) => {
             page.addEventListener('click', () => {
                 if (page.classList.contains('flipped')) {

@@ -3,312 +3,445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Away - Jurnal Buku ♡</title>
+    <title>Slide Away - Our Memory Book</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
-
     <style>
         :root {
-            --bg-paper: #f4f0e6;
-            --note-red: #cc4444;
-            --note-yellow: #f1c40f;
-            --note-blue: #3498db;
-            --note-green: #2ecc71;
-            --text-hand: 'Gochi Hand', cursive;
+            --bg-color: #f5f2e9;
+            --paper-color: #fdfbf7;
+            --accent-brown: #8d775f;
+            --soft-gold: #c5a059;
+            --text-dark: #4a4238;
+            --shadow: rgba(0, 0, 0, 0.15);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            background-color: #111;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            font-family: 'Quicksand', sans-serif;
-            flex-direction: column;
-            user-select: none;
+            cursor: none; /* Custom cursor used later */
         }
 
-        /* CONTAINER BUKU BESAR LAYAR PENUH */
-        .book-container {
-            position: relative;
-            width: 90vw;
-            height: 85vh;
-            max-width: 500px;
-            perspective: 2000px;
+        /* Background Effects */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/p6.png');
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 50;
         }
 
-        /* Lembaran Buku */
-        .page {
+        .particles {
+            position: fixed;
             width: 100%;
             height: 100%;
-            position: absolute;
-            top: 0; left: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        /* Sisi Depan dan Belakang Lembaran */
-        .front, .back {
-            position: absolute;
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--soft-gold) 0%, transparent 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 0 15px var(--soft-gold);
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+        }
+
+        /* Cover Page */
+        #cover {
+            position: fixed;
+            top: 0; left: 0;
             width: 100%; height: 100%;
-            backface-visibility: hidden;
-            background-color: var(--bg-paper);
-            padding: 8% 8%;
-            border: 1px solid #c4c1b5;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.08);
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1516053303025-5d9f55fbb902?q=80&w=2000') center/cover;
             display: flex;
             flex-direction: column;
-            background-image: linear-gradient(90deg, rgba(200,200,200,.15) 1px, transparent 1px);
-            background-size: 24px 24px;
-            border-radius: 8px;
-        }
-
-        .back { 
-            transform: rotateY(180deg); 
-            border-left: 3px double rgba(0,0,0,0.1);
-        }
-
-        .front::after {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; width: 15px; height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, transparent 100%);
-        }
-
-        /* Frame Foto Polaroid */
-        .photo-frame {
-            background: white;
-            padding: 3% 3% 8% 3%;
-            box-shadow: 2px 8px 20px rgba(0,0,0,0.15);
-            border: 1px solid #ddd;
-            width: 95%;
-            margin: auto auto 5px auto;
-            display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 100;
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 1s ease;
+            text-align: center;
+            color: #fff;
         }
-        .photo-frame img { 
-            width: 100%; 
+
+        #cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        #cover p {
+            font-size: 1.5rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .instruction {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrapbook Container */
+        .scrapbook {
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            position: relative;
+            perspective: 2000px;
+            display: none; /* Initially hidden */
+            z-index: 10;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
             height: 100%;
-            max-height: 35vh;
-            object-fit: cover; 
+            background: var(--paper-color);
+            padding: 40px;
+            box-shadow: 10px 10px 30px var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
+            transform-origin: left;
+            backface-visibility: hidden;
+            overflow: hidden;
         }
 
-        .sticky-note {
-            color: white; padding: 6px 12px;
-            font-family: var(--text-hand); font-size: calc(12px + 1vw);
-            width: fit-content; margin: 5px 0;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 5%);
         }
 
-        .handwritten {
-            font-family: var(--text-hand); 
-            font-size: calc(20px + 1vw);
-            color: #333; margin-top: 5%; text-align: center; line-height: 1.4;
+        .page.active {
+            transform: rotateY(0deg);
+            z-index: 2;
+            opacity: 1;
         }
 
-        /* Cover Buku */
-        .cover {
-            background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);
-            color: white; justify-content: center; align-items: center; text-align: center;
-            border: 8px double #fff3d1;
+        .page.flipped {
+            transform: rotateY(-180deg);
+            z-index: 1;
+            opacity: 0;
         }
 
-        .flipped { 
-            transform: rotateY(-180deg) !important; 
+        /* Content Styles */
+        .polaroid {
+            background: white;
+            padding: 15px 15px 40px 15px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(-3deg);
+            animation: dangle 3s ease-in-out infinite;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        /* Status Bar Atas */
-        .music-status {
-            position: fixed; top: 15px; right: 15px; color: #fff;
-            font-size: 11px; background: rgba(255,255,255,0.1);
-            padding: 5px 12px; border-radius: 15px; z-index: 100;
+        .polaroid img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            filter: sepia(0.2) contrast(0.9);
         }
 
-        /* Tombol Fullscreen */
-        #fs-toggle {
-            position: fixed; bottom: 15px; left: 15px;
-            background: rgba(255,255,255,0.15); color: #fff;
-            border: none; padding: 8px 12px; border-radius: 20px;
-            font-size: 11px; cursor: pointer; z-index: 100;
+        .tape {
+            position: absolute;
+            top: -15px;
+            width: 100px;
+            height: 30px;
+            background: rgba(220, 200, 150, 0.5);
+            transform: rotate(2deg);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+
+        .lyrics {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: var(--accent-brown);
+            text-align: center;
+            min-height: 2em;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 60;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--accent-brown);
+            padding: 10px 20px;
+            color: var(--accent-brown);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .btn:hover {
+            background: var(--accent-brown);
+            color: #fff;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 60;
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        @keyframes dangle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float linear infinite;
+        }
+
+        /* Typist effect class */
+        .typing::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            #cover h1 { font-size: 3rem; }
+            .polaroid img { width: 180px; height: 180px; }
+            .lyrics { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-    <audio id="audio-player" loop preload="auto">
+    <div class="cursor" id="cursor"></div>
+    <div class="grain-overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Background Music -->
+    <audio id="bgm" loop>
         <source src="slide-away.mp3" type="audio/mpeg">
+        <!-- Alternatif URL jika file tidak ada -->
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap untuk musik & Layar Penuh</div>
-
-    <div class="book-container" id="book">
-        
-        <div class="page">
-            <div class="front cover">
-                <div style="font-size: 8vh;">🎸</div>
-                <h1 style="font-family: 'Indie Flower'; font-size: calc(24px + 2vw);">Slide Away</h1>
-                <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
-                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka ✨</p>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-                <div class="handwritten">"Slide in baby<br>together we'll fly"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=500"></div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front">
-                <div class="handwritten">"I've tried praying but I don't know what you're saying to me"</div>
-                <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=500"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Prayers</div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
-                <div class="handwritten">"Now that you're mine"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500"></div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front">
-                <div class="handwritten">"We'll find a way<br>Of chasing the sun"</div>
-                <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=500"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Shine</div>
-                <div class="handwritten">"Let me be the one who shines with you"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500"></div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front">
-                <div class="sticky-note" style="background: var(--note-blue);">Morning</div>
-                <div class="handwritten">"In the morning we don't know what to do"</div>
-                <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=500"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-yellow); color: black;">Kindred</div>
-                <div class="handwritten">"Two of a kind<br>We'll find a way"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500"></div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front">
-                <div class="sticky-note" style="background: var(--note-red);">Together</div>
-                <div class="handwritten">"To do what we've done"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=500"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">Shining</div>
-                <div class="handwritten">"Let me be the one who shines with you"</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500"></div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front">
-                <div class="sticky-note" style="background: var(--note-green);">Slide Away</div>
-                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: calc(22px + 1vw);">
-                    "And we can slide away"
-                </div>
-                <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=500"></div>
-            </div>
-            <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Outro</div>
-                <div class="handwritten" style="font-weight: bold; font-size: calc(24px + 1vw); line-height: 1.6; margin-top: 15%;">
-                    "Slide away<br>Slide away<br>Away"
-                </div>
-            </div>
-        </div>
-
-        <div class="page">
-            <div class="front cover">
-                <h1 style="font-family: 'Indie Flower'; font-size: calc(24px + 2vw);">The End</h1>
-                <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
-                <p style="margin-top: 30px; font-size: 5vh;">❤️</p>
-            </div>
-            <div class="back"></div>
-        </div>
-
+    <div class="music-control">
+        <button class="btn" onclick="toggleMusic()" style="font-size: 12px;">Music: On/Off</button>
     </div>
 
-    <button id="fs-toggle">Layar Penuh 📱</button>
+    <!-- COVER SECTION -->
+    <div id="cover" onclick="openBook()">
+        <h1>Slide Away</h1>
+        <p>A little memory book for us.</p>
+        <div class="instruction">Tap anywhere to open the memories</div>
+    </div>
+
+    <!-- SCRAPBOOK SECTION -->
+    <div class="scrapbook" id="scrapbook">
+        <!-- Pages will be generated here -->
+    </div>
+
+    <div class="controls" id="controls" style="display: none;">
+        <button class="btn" onclick="prevPage()">Prev</button>
+        <button class="btn" onclick="nextPage()">Next</button>
+    </div>
 
     <script>
-        const pages = document.querySelectorAll('.page');
-        const audio = document.getElementById('audio-player');
-        const fsBtn = document.getElementById('fs-toggle');
-        
-        let musicStarted = false;
+        const lyrics = [
+            "Slide in baby, together we’ll fly",
+            "I’ve tried praying but I don’t know what you’re saying to me",
+            "Now that you’re mine, we’ll find a way",
+            "Of chasing the sun",
+            "Let me be the one who shines with you",
+            "In the morning we don’t know what to do",
+            "Two of a kind, we’ll find a way",
+            "To do what we’ve done",
+            "Let me be the one who shines with you",
+            "And we can slide away..."
+        ];
 
-        function updateZIndex() {
-            pages.forEach((page, index) => {
-                if (page.classList.contains('flipped')) {
-                    page.style.zIndex = 20 + index;
-                } else {
-                    page.style.zIndex = 10 - index;
-                }
-            });
-        }
-        updateZIndex();
+        // Ganti URL foto di sini dengan foto kamu
+        const images = [
+            "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?q=80&w=500",
+            "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?q=80&w=500",
+            "https://images.unsplash.com/photo-1516589174184-c68526514ec0?q=80&w=500",
+            "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?q=80&w=500",
+            "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?q=80&w=500",
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=500",
+            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=500",
+            "https://images.unsplash.com/photo-1516575334481-f85287c2c82d?q=80&w=500",
+            "https://images.unsplash.com/photo-1464746109380-40181ce74a8e?q=80&w=500",
+            "https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=500"
+        ];
 
-        function playMusic() {
-            if (!musicStarted) {
-                audio.play()
-                .then(() => {
-                    musicStarted = true;
-                    document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away 🎸";
-                })
-                .catch(err => console.log("Audio waiting for tap..."));
-            }
-        }
+        let currentPage = 0;
+        const totalPages = lyrics.length;
+        const scrapbook = document.getElementById('scrapbook');
+        const bgm = document.getElementById('bgm');
 
-        function requestFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log("Fullscreen request bypassed.");
-                });
-            }
-        }
-
-        pages.forEach((page, index) => {
-            page.addEventListener('click', (e) => {
-                playMusic();
-                
-                if (index === 0) {
-                    requestFullscreen();
-                }
-
-                if (page.classList.contains('flipped')) {
-                    page.classList.remove('flipped');
-                } else {
-                    page.classList.add('flipped');
-                }
-                
-                updateZIndex();
-                e.stopPropagation();
-            });
+        // Initialize Cursor
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('cursor');
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        fsBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
+        // Generate Pages
+        function createPages() {
+            lyrics.forEach((text, i) => {
+                const page = document.createElement('div');
+                page.className = `page ${i === 0 ? 'active' : ''}`;
+                page.style.zIndex = totalPages - i;
+                
+                page.innerHTML = `
+                    <div class="tape"></div>
+                    <div class="polaroid">
+                        <img src="${images[i]}" alt="Memories">
+                    </div>
+                    <div class="lyrics" id="lyric-${i}"></div>
+                    ${i === totalPages - 1 ? '<p style="margin-top:20px; font-weight:bold;">Some memories never fade.</p>' : ''}
+                `;
+                scrapbook.appendChild(page);
+            });
+        }
+
+        // Open Book Event
+        function openBook() {
+            document.getElementById('cover').style.transform = 'translateY(-100%)';
+            document.getElementById('cover').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('cover').style.display = 'none';
+                scrapbook.style.display = 'block';
+                document.getElementById('controls').style.display = 'flex';
+                typeLyrics(0);
+            }, 1000);
+
+            // Play Music
+            bgm.play().catch(e => console.log("Music needs interaction first"));
+            createParticles();
+        }
+
+        // Typing Effect
+        function typeLyrics(index) {
+            const element = document.getElementById(`lyric-${index}`);
+            const text = lyrics[index];
+            element.innerHTML = "";
+            let i = 0;
+            element.classList.add('typing');
+            
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, 70);
+                } else {
+                    element.classList.remove('typing');
+                }
             }
-            playMusic();
-        });
+            typing();
+        }
+
+        // Navigation
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                const currentEl = document.getElementsByClassName('page')[currentPage];
+                currentEl.classList.add('flipped');
+                currentEl.classList.remove('active');
+                
+                currentPage++;
+                const nextEl = document.getElementsByClassName('page')[currentPage];
+                nextEl.classList.add('active');
+                typeLyrics(currentPage);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                const currentEl = document.getElementsByClassName('page')[currentPage];
+                currentEl.classList.remove('active');
+                
+                currentPage--;
+                const prevEl = document.getElementsByClassName('page')[currentPage];
+                prevEl.classList.remove('flipped');
+                prevEl.classList.add('active');
+                typeLyrics(currentPage);
+            }
+        }
+
+        // Music Control
+        function toggleMusic() {
+            if (bgm.paused) bgm.play();
+            else bgm.pause();
+        }
+
+        // Floating particles (Light rain effect)
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = p.style.height = Math.random() * 5 + 2 + 'px';
+                p.style.animationDuration = Math.random() * 3 + 2 + 's';
+                p.style.delay = Math.random() * 5 + 's';
+                p.style.opacity = Math.random();
+                container.appendChild(p);
+            }
+        }
+
+        window.onload = createPages;
     </script>
 </body>
 </html>

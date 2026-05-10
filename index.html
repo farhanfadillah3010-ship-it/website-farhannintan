@@ -1,967 +1,204 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Slide Away — Memory Diary</title>
+<!-- ========================= -->
+<!-- PAGE 1 -->
+<!-- ========================= -->
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;500;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<div class="page active">
 
-<style>
-:root{
-    --cream:#f8f3e8;
-    --beige:#e8dccb;
-    --warm:#fff7ee;
-    --brown:#6d5447;
-    --gold:#d6b46a;
-    --goldGlow:rgba(214,180,106,.5);
-    --dark:#141414;
-}
+    <div class="sticker one">✨</div>
+    <div class="sticker two">🤍</div>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    cursor:none;
-}
+    <div class="polaroid">
+        <div class="tape"></div>
 
-body{
-    overflow:hidden;
-    background:#000;
-    color:white;
-    font-family:'Cormorant Garamond', serif;
-}
-
-/* =========================
-GLOBAL CINEMATIC BACKGROUND
-========================= */
-
-body::before{
-    content:'';
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at top left, rgba(255,220,160,.15), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(255,180,120,.12), transparent 35%),
-    linear-gradient(120deg,#000,#16120f,#221b15);
-    z-index:-10;
-}
-
-.grain{
-    position:fixed;
-    inset:0;
-    background:url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
-    opacity:.06;
-    mix-blend-mode:soft-light;
-    animation:grain 8s steps(10) infinite;
-    pointer-events:none;
-    z-index:200;
-}
-
-@keyframes grain{
-    0%{transform:translate(0,0);}
-    20%{transform:translate(-5%,3%);}
-    40%{transform:translate(3%,5%);}
-    60%{transform:translate(5%,0);}
-    80%{transform:translate(-3%,2%);}
-    100%{transform:translate(0,0);}
-}
-
-/* floating particles */
-
-.particles{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    z-index:-1;
-    pointer-events:none;
-}
-
-.particles span{
-    position:absolute;
-    width:4px;
-    height:4px;
-    background:rgba(255,235,180,.7);
-    border-radius:50%;
-    filter:blur(.5px);
-    animation:float linear infinite;
-}
-
-@keyframes float{
-    from{
-        transform:translateY(100vh) scale(0);
-        opacity:0;
-    }
-    20%{
-        opacity:1;
-    }
-    to{
-        transform:translateY(-120vh) scale(1.4);
-        opacity:0;
-    }
-}
-
-/* oasis lights */
-
-.light-rays{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:-2;
-}
-
-.ray{
-    position:absolute;
-    width:400px;
-    height:140vh;
-    background:linear-gradient(to bottom,
-    rgba(255,220,170,.18),
-    transparent);
-    filter:blur(50px);
-    transform:rotate(20deg);
-    animation:moveRay 14s infinite alternate ease-in-out;
-}
-
-.ray:nth-child(2){
-    left:70%;
-    animation-duration:18s;
-}
-
-@keyframes moveRay{
-    from{
-        transform:translateY(-10%) rotate(15deg);
-    }
-    to{
-        transform:translateY(10%) rotate(-10deg);
-    }
-}
-
-/* =========================
-CUSTOM CURSOR
-========================= */
-
-#cursor{
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    background:white;
-    position:fixed;
-    pointer-events:none;
-    z-index:9999;
-    mix-blend-mode:difference;
-    box-shadow:
-    0 0 10px white,
-    0 0 30px var(--gold),
-    0 0 60px var(--goldGlow);
-    transform:translate(-50%,-50%);
-}
-
-.cursor-trail{
-    width:6px;
-    height:6px;
-    position:fixed;
-    border-radius:50%;
-    background:rgba(255,220,170,.7);
-    pointer-events:none;
-    z-index:9998;
-    animation:trailFade .8s linear forwards;
-}
-
-@keyframes trailFade{
-    to{
-        transform:scale(0);
-        opacity:0;
-    }
-}
-
-/* =========================
-COVER
-========================= */
-
-#cover{
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at center,
-    rgba(255,245,220,.95),
-    rgba(228,212,190,.98)),
-    url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-    z-index:100;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    transition:2s cubic-bezier(.7,0,.3,1);
-}
-
-#cover.opened{
-    opacity:0;
-    transform:scale(1.2);
-    pointer-events:none;
-}
-
-.cover-overlay{
-    position:absolute;
-    inset:0;
-    background:
-    radial-gradient(circle at top left, rgba(255,255,255,.5), transparent),
-    radial-gradient(circle at bottom right, rgba(255,200,120,.25), transparent);
-    animation:coverGlow 8s infinite alternate;
-}
-
-@keyframes coverGlow{
-    from{filter:brightness(1);}
-    to{filter:brightness(1.1);}
-}
-
-.cover-decor{
-    position:absolute;
-    width:200px;
-    opacity:.3;
-    filter:blur(.3px);
-}
-
-.decor1{
-    top:-20px;
-    left:-10px;
-    transform:rotate(-10deg);
-}
-
-.decor2{
-    bottom:-40px;
-    right:-20px;
-    transform:rotate(10deg);
-}
-
-.cover-content{
-    position:relative;
-    text-align:center;
-    z-index:2;
-}
-
-.cover-content h1{
-    font-family:'Playfair Display', serif;
-    font-size:clamp(4rem,10vw,8rem);
-    color:#3d2c20;
-    font-style:italic;
-    letter-spacing:-2px;
-    text-shadow:
-    0 0 10px rgba(255,255,255,.5),
-    0 0 30px rgba(214,180,106,.5);
-    animation:shimmer 5s infinite;
-}
-
-@keyframes shimmer{
-    50%{
-        text-shadow:
-        0 0 20px rgba(255,255,255,.8),
-        0 0 50px rgba(214,180,106,.8);
-    }
-}
-
-.subtitle{
-    margin-top:10px;
-    color:#5d4438;
-    font-size:1.4rem;
-    font-family:'Dancing Script', cursive;
-}
-
-.tap{
-    margin-top:40px;
-    letter-spacing:5px;
-    text-transform:uppercase;
-    color:#7d6758;
-    font-size:.85rem;
-    animation:breathe 2s infinite;
-}
-
-@keyframes breathe{
-    50%{
-        opacity:.3;
-        transform:translateY(3px);
-    }
-}
-
-/* =========================
-BOOK
-========================= */
-
-#book{
-    position:relative;
-    width:100vw;
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    perspective:3000px;
-    overflow:hidden;
-}
-
-.page{
-    position:absolute;
-    width:min(88vw,950px);
-    height:min(85vh,700px);
-    background:
-    linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),
-    url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
-    var(--cream);
-    border-radius:8px;
-    padding:50px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    opacity:0;
-    transform:
-    rotateY(-90deg)
-    translateY(30px)
-    scale(.9);
-    transition:1.4s cubic-bezier(.2,.8,.2,1);
-    box-shadow:
-    0 20px 60px rgba(0,0,0,.45),
-    inset 0 0 40px rgba(255,255,255,.5);
-    overflow:hidden;
-}
-
-.page::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:
-    radial-gradient(circle at top left,
-    rgba(255,255,255,.6),
-    transparent 30%);
-    pointer-events:none;
-}
-
-.page.active{
-    opacity:1;
-    transform:
-    rotateY(0)
-    translateY(0)
-    scale(1);
-}
-
-/* decorative elements */
-
-.sticker{
-    position:absolute;
-    font-size:1.8rem;
-    opacity:.8;
-    animation:floatSticker 5s ease-in-out infinite;
-}
-
-@keyframes floatSticker{
-    50%{
-        transform:translateY(-10px) rotate(8deg);
-    }
-}
-
-.sticker.one{
-    top:20px;
-    right:30px;
-}
-
-.sticker.two{
-    bottom:20px;
-    left:30px;
-}
-
-.polaroid{
-    background:white;
-    padding:15px 15px 60px;
-    position:relative;
-    box-shadow:
-    0 20px 30px rgba(0,0,0,.2);
-    transform:rotate(-3deg);
-    animation:swing 5s ease-in-out infinite;
-}
-
-@keyframes swing{
-    50%{
-        transform:
-        rotate(-1deg)
-        translateY(-10px);
-    }
-}
-
-.polaroid img{
-    width:320px;
-    height:380px;
-    object-fit:cover;
-    display:block;
-    filter:saturate(.9) contrast(1.05);
-}
-
-.tape{
-    position:absolute;
-    top:-15px;
-    left:50%;
-    transform:translateX(-50%) rotate(3deg);
-    width:120px;
-    height:35px;
-    background:rgba(255,225,160,.45);
-    backdrop-filter:blur(2px);
-}
-
-.note{
-    margin-top:25px;
-    font-size:2.3rem;
-    color:#5f4638;
-    text-align:center;
-    font-family:'Dancing Script', cursive;
-    line-height:1.4;
-    text-shadow:0 0 10px rgba(255,255,255,.4);
-}
-
-/* typing */
-
-.typing{
-    border-right:2px solid rgba(100,60,30,.7);
-    white-space:nowrap;
-    overflow:hidden;
-    width:0;
-    animation:
-    typing 4s steps(40,end) forwards,
-    blink .7s infinite;
-}
-
-@keyframes typing{
-    to{
-        width:100%;
-    }
-}
-
-@keyframes blink{
-    50%{
-        border-color:transparent;
-    }
-}
-
-/* controls */
-
-.controls{
-    position:fixed;
-    bottom:30px;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    gap:20px;
-    z-index:100;
-    opacity:0;
-    transition:1s;
-}
-
-.controls.show{
-    opacity:1;
-}
-
-button{
-    border:none;
-    background:rgba(255,255,255,.08);
-    color:white;
-    padding:14px 28px;
-    border-radius:40px;
-    backdrop-filter:blur(15px);
-    font-family:'Playfair Display', serif;
-    letter-spacing:2px;
-    transition:.4s;
-    border:1px solid rgba(255,255,255,.15);
-}
-
-button:hover{
-    transform:translateY(-4px) scale(1.04);
-    background:rgba(214,180,106,.25);
-    box-shadow:0 0 20px rgba(214,180,106,.3);
-}
-
-/* music button */
-
-.music{
-    position:fixed;
-    top:25px;
-    right:25px;
-    z-index:120;
-}
-
-/* ending */
-
-#ending{
-    position:fixed;
-    inset:0;
-    background:black;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    opacity:0;
-    pointer-events:none;
-    transition:3s;
-    z-index:500;
-}
-
-#ending.show{
-    opacity:1;
-    pointer-events:auto;
-}
-
-#ending h1{
-    font-family:'Playfair Display', serif;
-    font-size:clamp(2rem,6vw,5rem);
-    color:var(--gold);
-    text-align:center;
-    font-style:italic;
-    animation:endGlow 4s infinite alternate;
-}
-
-@keyframes endGlow{
-    to{
-        text-shadow:
-        0 0 20px rgba(214,180,106,.5),
-        0 0 40px rgba(214,180,106,.6);
-    }
-}
-
-/* mobile */
-
-@media(max-width:768px){
-
-.page{
-    padding:25px;
-}
-
-.polaroid img{
-    width:220px;
-    height:280px;
-}
-
-.note{
-    font-size:1.7rem;
-}
-
-.controls{
-    bottom:15px;
-}
-
-button{
-    padding:12px 18px;
-    font-size:.8rem;
-}
-
-}
-
-</style>
-</head>
-<body>
-
-<div class="grain"></div>
-
-<div class="particles" id="particles"></div>
-
-<div class="light-rays">
-    <div class="ray"></div>
-    <div class="ray"></div>
-</div>
-
-<div id="cursor"></div>
-
-<audio id="bgm" loop>
-    <source src="slide-away.mp3" type="audio/mp3">
-</audio>
-
-<!-- COVER -->
-
-<section id="cover" onclick="openBook()">
-
-    <div class="cover-overlay"></div>
-
-    <img class="cover-decor decor1" src="https://pngimg.com/d/flowers_PNG102.png">
-    <img class="cover-decor decor2" src="https://pngimg.com/d/flowers_PNG102.png">
-
-    <div class="cover-content">
-        <p style="letter-spacing:8px;color:#8b6d5c;margin-bottom:15px;">
-            MEMORIES
-        </p>
-
-        <h1>Slide Away</h1>
-
-        <div class="subtitle">
-            A little memory book for us.
-        </div>
-
-        <div class="tap">
-            Tap anywhere to open the memories
-        </div>
+        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop">
     </div>
 
-</section>
-
-<!-- BOOK -->
-
-<div id="book">
-
-    <!-- PAGE 1 -->
-
-    <div class="page active">
-
-        <div class="sticker one">✨</div>
-        <div class="sticker two">🤍</div>
-
-        <div class="polaroid">
-            <div class="tape"></div>
-
-            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop">
-
-        </div>
-
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Slide in baby, together we’ll fly”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 2 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 2 -->
+<!-- ========================= -->
 
-        <div class="sticker one">🌙</div>
+<div class="page">
 
-        <div class="polaroid" style="transform:rotate(4deg);">
-            <div class="tape"></div>
+    <div class="sticker one">🌙</div>
 
-            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid" style="transform:rotate(4deg);">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “I’ve tried praying but I don’t know what you’re saying to me”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 3 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 3 -->
+<!-- ========================= -->
 
-        <div class="sticker one">☁️</div>
+<div class="page">
 
-        <div class="polaroid">
-            <div class="tape"></div>
+    <div class="sticker one">☁️</div>
 
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Now that you’re mine, we’ll find a way”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 4 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 4 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Of chasing the sun”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 5 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 5 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Let me be the one who shines with you”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 6 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 6 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “In the morning we don’t know what to do”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 7 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 7 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Two of a kind, we’ll find a way”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 8 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 8 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “To do what we’ve done”
-        </div>
-
+        </span>
     </div>
 
-    <!-- PAGE 9 -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- PAGE 9 -->
+<!-- ========================= -->
 
-        <div class="polaroid">
-            <div class="tape"></div>
+<div class="page">
 
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
+    <div class="polaroid">
+        <div class="tape"></div>
 
-        </div>
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
+    </div>
 
-        <div class="note typing">
+    <div class="note">
+        <span class="typing">
             “Let me be the one who shines with you”
-        </div>
-
+        </span>
     </div>
 
-    <!-- FINAL -->
+</div>
 
-    <div class="page">
+<!-- ========================= -->
+<!-- FINAL PAGE -->
+<!-- ========================= -->
 
-        <div class="note typing" style="font-size:3.5rem;">
+<div class="page">
+
+    <div class="note">
+        <span class="typing final-lyrics">
             “And we can slide away...”
-        </div>
-
-        <button onclick="showEnding()" style="margin-top:40px;">
-            Close The Book
-        </button>
-
+        </span>
     </div>
 
-</div>
-
-<!-- CONTROLS -->
-
-<div class="controls" id="controls">
-
-    <button onclick="prevPage()">Prev</button>
-
-    <button onclick="nextPage()">Next</button>
+    <button onclick="showEnding()" style="margin-top:40px;">
+        Close The Book
+    </button>
 
 </div>
-
-<!-- MUSIC -->
-
-<button class="music" onclick="toggleMusic()">
-    Music
-</button>
-
-<!-- ENDING -->
-
-<div id="ending">
-
-    <h1>
-        Some memories never fade.
-    </h1>
-
-</div>
-
-<script>
-
-/* =========================
-PARTICLES
-========================= */
-
-const particles = document.getElementById('particles');
-
-for(let i=0;i<70;i++){
-
-    let s = document.createElement('span');
-
-    s.style.left = Math.random()*100 + 'vw';
-
-    s.style.animationDuration =
-    6 + Math.random()*12 + 's';
-
-    s.style.animationDelay =
-    Math.random()*5 + 's';
-
-    s.style.opacity = Math.random();
-
-    particles.appendChild(s);
-}
-
-/* =========================
-CURSOR
-========================= */
-
-const cursor = document.getElementById('cursor');
-
-document.addEventListener('mousemove',e=>{
-
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-
-    let trail = document.createElement('div');
-    trail.className='cursor-trail';
-
-    trail.style.left = e.clientX + 'px';
-    trail.style.top = e.clientY + 'px';
-
-    document.body.appendChild(trail);
-
-    setTimeout(()=>trail.remove(),800);
-});
-
-/* =========================
-BOOK LOGIC
-========================= */
-
-const pages = document.querySelectorAll('.page');
-
-let current = 0;
-
-const bgm = document.getElementById('bgm');
-
-function openBook(){
-
-    document.getElementById('cover')
-    .classList.add('opened');
-
-    document.getElementById('controls')
-    .classList.add('show');
-
-    bgm.volume=.8;
-
-    bgm.play().catch(()=>{});
-}
-
-function showPage(index){
-
-    pages.forEach(p=>p.classList.remove('active'));
-
-    pages[index].classList.add('active');
-
-    resetTyping(pages[index]);
-}
-
-function nextPage(){
-
-    if(current < pages.length-1){
-
-        current++;
-
-        showPage(current);
-    }
-}
-
-function prevPage(){
-
-    if(current > 0){
-
-        current--;
-
-        showPage(current);
-    }
-}
-
-/* typing reset */
-
-function resetTyping(page){
-
-    const text = page.querySelector('.typing');
-
-    if(!text) return;
-
-    text.style.animation='none';
-
-    void text.offsetWidth;
-
-    text.style.animation=
-    'typing 4s steps(40,end) forwards, blink .7s infinite';
-}
-
-/* =========================
-ENDING
-========================= */
-
-function showEnding(){
-
-    const ending =
-    document.getElementById('ending');
-
-    ending.classList.add('show');
-
-    let fade = setInterval(()=>{
-
-        if(bgm.volume > .05){
-
-            bgm.volume -= .05;
-
-        }else{
-
-            bgm.pause();
-
-            clearInterval(fade);
-        }
-
-    },200);
-}
-
-/* =========================
-MUSIC TOGGLE
-========================= */
-
-function toggleMusic(){
-
-    if(bgm.paused){
-
-        bgm.play();
-
-    }else{
-
-        bgm.pause();
-    }
-}
-
-</script>
-
-</body>
-                </html>

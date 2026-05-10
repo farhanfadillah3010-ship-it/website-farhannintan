@@ -26,6 +26,7 @@
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
             flex-direction: column;
+            position: relative;
         }
 
         /* Container Buku */
@@ -132,22 +133,35 @@
             padding: 5px 15px;
             border-radius: 20px;
             pointer-events: none;
+            z-index: 99;
         }
 
         /* Animasi Halaman */
         .flipped { transform: rotateY(-180deg) !important; z-index: 10 !important; }
 
-        /* Wadah Pemutar Spotify agar Tetap Rapi di Bagian Bawah */
-        .music-container {
-            margin-top: 15px;
-            width: 360px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        /* Status Musik Melayang Kecil di Pojok Atas */
+        .music-status {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+            z-index: 99;
         }
     </style>
 </head>
 <body>
+
+    <audio id="audio-player" loop>
+        <source src="https://pub-c5e31b5cdafb419a86a69d1874152aa6.r2.dev/slide-away.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-status" id="status-text">🎵 Tap layar untuk musik</div>
 
     <div class="book-container">
         <div class="page" style="z-index: 5;">
@@ -196,27 +210,38 @@
         </div>
     </div>
 
-    <div class="music-container">
-        <iframe id="spotify-player" src="https://open.spotify.com/embed/track/47g37S3g4g79g79g4g?utm_source=generator&autoplay=1" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-
-    <div class="hint">Sentuh tepi kanan buku untuk membalik halaman</div>
+    <div class="hint">Sentuh buku untuk membalik halaman</div>
 
     <script>
         const pages = document.querySelectorAll('.page');
+        const audio = document.getElementById('audio-player');
+        const statusText = document.getElementById('status-text');
+        let musicStarted = false;
 
+        // Fungsi memutar lagu begitu ada klik pertama di body/layar
+        document.body.addEventListener('click', () => {
+            if (!musicStarted) {
+                audio.play()
+                    .then(() => {
+                        musicStarted = true;
+                        statusText.innerText = "🔊 Now Playing: Slide Away 🎶";
+                    })
+                    .catch((error) => {
+                        console.log("Gagal memutar audio otomatis:", error);
+                    });
+            }
+        });
+
+        // Efek Flip Buku
         pages.forEach((page, index) => {
             page.addEventListener('click', () => {
-                // Efek Flip Halaman
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
-                    // Mengatur ulang z-index saat halaman ditutup
                     setTimeout(() => {
                         page.style.zIndex = 5 - index;
                     }, 500);
                 } else {
                     page.classList.add('flipped');
-                    // Menaikkan z-index saat halaman dibuka agar tidak tertumpuk
                     page.style.zIndex = 10 + index;
                 }
             });

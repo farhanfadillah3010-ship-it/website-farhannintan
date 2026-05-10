@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Only Exception - Our Jurnal ♡</title>
+    <title>Slide Away - Our Jurnal ♡</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
@@ -13,6 +13,7 @@
             --note-red: #cc4444;
             --note-yellow: #f1c40f;
             --note-blue: #3498db;
+            --note-green: #2ecc71;
             --text-hand: 'Gochi Hand', cursive;
         }
 
@@ -26,6 +27,7 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
+            user-select: none;
         }
 
         /* Container Utama Buku */
@@ -104,92 +106,93 @@
 </head>
 <body>
 
-    <audio id="audio-player" loop>
-        <source src="exception.mp3" type="audio/mpeg">
+    <audio id="audio-player" loop preload="auto">
+        <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap untuk buka & musik</div>
+    <div class="music-status" id="status-text">🎵 Tap layar untuk mulai & putar musik</div>
 
     <div class="book-container">
         
         <div class="page" style="z-index: 10;">
             <div class="front cover">
-                <div style="font-size: 60px;">❤️</div>
-                <h1 style="font-family: 'Indie Flower';">Our Day</h1>
-                <p style="margin-top: 10px; font-size: 14px;">The Only Exception</p>
+                <div style="font-size: 60px;">📖</div>
+                <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
+                <p style="margin-top: 10px; font-size: 14px;">Our Story Jurnal</p>
+                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap to open & play music ✨</p>
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
-                <div class="handwritten">"When I was younger, I saw my daddy cry...<br>And curse at the wind."</div>
+                <div class="handwritten">"Once upon a time, it was paradise...<br>Once upon a time, I was paralyzed."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 9;">
             <div class="front">
-                <div class="handwritten">"He broke his own heart and I watched as he tried...<br>To reassemble it."</div>
+                <div class="handwritten">"Think I'm gonna miss these harbor lights...<br>But it's time to let it go."</div>
                 <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Promises</div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Paradise</div>
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-blue);">Pre-Chorus</div>
-                <div class="handwritten">"And I swore that I would never let myself forget...<br>How common love is."</div>
+                <div class="handwritten">"Once upon a time, it was made for us...<br>Woke up one day, it had turned to dust."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 8;">
             <div class="front">
-                <div class="handwritten">"Because none of it was ever worth the risk..."</div>
+                <div class="handwritten">"Baby, we were found, but now we're lost...<br>So it's time to let it go."</div>
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Chorus</div>
-                <div class="handwritten" style="color: #8c2a2a; font-weight: bold;">"But you are...<br>The only exception."</div>
+                <div class="sticky-note" style="background: var(--note-green);">Chorus</div>
+                <div class="handwritten" style="color: #8c2a2a; font-weight: bold;">"So won't you slide away?<br>Back to the ocean, I'll go back to the city lights."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 7;">
             <div class="front">
-                <div class="handwritten">"You are...<br>The only exception."</div>
+                <div class="handwritten">"So won't you slide away?<br>Back to the ocean, la-la-la, you'll slide away."</div>
                 <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-yellow); color: black;">Verse 2</div>
-                <div class="handwritten">"Maybe I know, somewhere deep in my soul...<br>That love never lasts."</div>
+                <div class="sticky-note" style="background: var(--note-red);">Verse 2</div>
+                <div class="handwritten">"I want my house in the hills...<br>Don't want the whiskey and pills."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 6;">
             <div class="front">
-                <div class="handwritten">"And we've got to find other ways to make it alone...<br>Or keep a straight face."</div>
+                <div class="handwritten">"I don't give up easily...<br>But I don't think I'm down."</div>
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=400"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">My Exception</div>
-                <div class="handwritten">"But I've got a tight grip on reality here...<br>But I can't let go of what's in front of me here."</div>
+                <div class="sticky-note" style="background: var(--note-blue);">Grown Now</div>
+                <div class="handwritten">"Move on, we're not seventeen...<br>I'm not who I used to be."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 5;">
             <div class="front">
-                <div class="handwritten">"I'm on my way to believing."</div>
+                <div class="handwritten">"You say that everything changed...<br>You're right, we're grown now."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-red); margin-left: auto;">Believing</div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Letting Go</div>
             </div>
             <div class="back">
-                <div class="handwritten" style="color: #8c2a2a; font-weight: bold;">"And oh, I'm on my way to believing...<br>That you are my only exception."</div>
+                <div class="handwritten" style="color: #8c2a2a; font-weight: bold;">"So won't you slide away?<br>Back to the ocean... It's time to let it go."</div>
                 <div class="photo-frame" style="transform:scale(1.1)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 4;">
             <div class="front cover">
-                <h1 style="font-family: 'Indie Flower';">Forever & Always</h1>
-                <p style="font-size: 14px; font-style: italic;">"You are the only exception."</p>
+                <h1 style="font-family: 'Indie Flower';">The End</h1>
+                <p style="font-size: 14px; font-style: italic;">"Move on, we're not seventeen."</p>
                 <p style="margin-top: 20px;">❤️</p>
             </div>
             <div class="back"></div>
@@ -202,21 +205,29 @@
         const audio = document.getElementById('audio-player');
         let musicStarted = false;
 
-        pages.forEach((page, index) => {
-            page.addEventListener('click', () => {
-                // Jalankan musik di ketukan/klik pertama
-                if (!musicStarted) {
-                    audio.play()
-                        .then(() => {
-                            musicStarted = true;
-                            document.getElementById('status-text').innerText = "🔊 Playing: The Only Exception";
-                        })
-                        .catch(err => {
-                            console.log("Audio block bypass", err);
-                        });
-                }
+        // Fungsi pemutaran audio yang dipicu oleh interaksi user pertama kali
+        function startMusic() {
+            if (!musicStarted) {
+                audio.play()
+                    .then(() => {
+                        musicStarted = true;
+                        document.getElementById('status-text').innerText = "🔊 Playing: Slide Away 🎶";
+                    })
+                    .catch(err => {
+                        console.log("Audio play blocked by browser. Retrying on next click...", err);
+                    });
+            }
+        }
 
-                // Logika pembalik halaman
+        // Jalankan fungsi saat seluruh halaman atau buku diklik
+        document.body.addEventListener('click', startMusic);
+
+        pages.forEach((page, index) => {
+            page.addEventListener('click', (e) => {
+                // Pastikan lagu dicoba diputar saat halaman diklik
+                startMusic();
+
+                // Logika Pembalik Halaman
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
                     setTimeout(() => { page.style.zIndex = 10 - index; }, 500);
@@ -224,6 +235,8 @@
                     page.classList.add('flipped');
                     page.style.zIndex = 20 + index;
                 }
+                
+                e.stopPropagation(); // Mencegah bentrok event listener
             });
         });
     </script>

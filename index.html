@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Away (Oasis) - Our Jurnal ♡</title>
+    <title>Slide Away - Oasis Jurnal ♡</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
@@ -27,11 +27,9 @@
             height: 100vh;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
-            user-select: none;
             flex-direction: column;
         }
 
-        /* Container Utama Buku */
         .book-container {
             position: relative;
             width: 360px;
@@ -39,7 +37,6 @@
             perspective: 1500px;
         }
 
-        /* Lembaran Halaman */
         .page {
             width: 100%;
             height: 100%;
@@ -67,7 +64,6 @@
 
         .back { transform: rotateY(180deg); }
 
-        /* Hiasan */
         .photo-frame {
             background: white;
             padding: 8px 8px 25px 8px;
@@ -96,10 +92,7 @@
             border: 6px double #fff3d1;
         }
 
-        /* Efek Membalik Halaman Sempurna */
-        .flipped { 
-            transform: rotateY(-180deg) !important; 
-        }
+        .flipped { transform: rotateY(-180deg) !important; }
 
         .music-status {
             position: fixed; top: 15px; right: 15px; color: #fff;
@@ -110,11 +103,11 @@
 </head>
 <body>
 
-    <audio id="audio-player" loop preload="auto">
+    <audio id="audio-player" loop>
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap halaman untuk mulai & putar musik</div>
+    <div class="music-status" id="status-text">🎵 Tap halaman untuk musik & lirik</div>
 
     <div class="book-container" id="book">
         
@@ -122,11 +115,11 @@
             <div class="front cover">
                 <div style="font-size: 60px;">🎸</div>
                 <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
-                <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal Version</p>
-                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap to open & play music ✨</p>
+                <p style="margin-top: 10px; font-size: 14px;">Oasis Version</p>
+                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap to Start 🎶</p>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-red);">Pre-Chorus</div>
+                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
                 <div class="handwritten">"Slide in, baby...<br>Together we'll fly."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=400"></div>
             </div>
@@ -136,11 +129,11 @@
             <div class="front">
                 <div class="handwritten">"I've tried praying...<br>And I know just what you're saying to me."</div>
                 <div class="photo-frame" style="transform:rotate(-2deg)"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Prayers</div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Promises</div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-blue);">Chorus</div>
-                <div class="handwritten">"Now that you're mine, we'll find a way...<br>Of chasing the sun."</div>
+                <div class="sticky-note" style="background: var(--note-blue);">Verse 2</div>
+                <div class="handwritten">"Now that you're mine...<br>We'll find a way of chasing the sun."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=400"></div>
             </div>
         </div>
@@ -151,7 +144,7 @@
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
             </div>
             <div class="back">
-                <div class="sticky-note" style="background: var(--note-green);">Two of a Kind</div>
+                <div class="sticky-note" style="background: var(--note-green);">Verse 3</div>
                 <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
             </div>
@@ -159,26 +152,25 @@
 
         <div class="page" style="z-index: 7;">
             <div class="front">
-                <div class="handwritten">"Slide away, and give it all you've got...<br>My today, fell in from the top."</div>
+                <div class="handwritten" style="color: #1c354e; font-weight: bold;">"Slide away...<br>And give it all you've got."</div>
                 <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-red);">Verse 1</div>
             </div>
             <div class="back">
-                <div class="handwritten">"I dream of you, and all the things you say...<br>I wonder where you are now."</div>
+                <div class="sticky-note" style="background: var(--note-red);">Verse 4</div>
+                <div class="handwritten">"My today...<br>Fell in from the top."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=400"></div>
             </div>
         </div>
 
         <div class="page" style="z-index: 6;">
             <div class="front">
-                <div class="sticky-note" style="background: var(--note-blue);">Verse 2</div>
-                <div class="handwritten">"Hold me down, all the world's asleep...<br>I need you now, you've knocked me off my feet."</div>
+                <div class="handwritten">"I dream of you...<br>And all the things you say."</div>
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=400"></div>
             </div>
             <div class="back">
-                <div class="handwritten">"I dream of you, we talk of growing old...<br>But you said please don't."</div>
+                <div class="sticky-note" style="background: var(--note-blue);">Verse 5</div>
+                <div class="handwritten">"Hold me down...<br>All the world's asleep."</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400"></div>
-                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">My Star</div>
             </div>
         </div>
 
@@ -186,10 +178,11 @@
             <div class="front">
                 <div class="handwritten">"Don't you know that you're my everything?"</div>
                 <div class="photo-frame"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"></div>
+                <div class="sticky-note" style="background: var(--note-yellow); color: black; margin-left: auto;">Forever</div>
             </div>
             <div class="back">
                 <div class="sticky-note" style="background: var(--note-green);">Outro</div>
-                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 26px;">
+                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px;">
                     "And we can slide away...<br>slide away...<br>slide away."
                 </div>
                 <div class="photo-frame" style="transform:scale(1.1)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
@@ -197,7 +190,7 @@
         </div>
 
         <div class="page" style="z-index: 4;">
-            <div class="front cover" style="background: linear-gradient(135deg, #1c354e 0%, #0f2030 100%);">
+            <div class="front cover">
                 <h1 style="font-family: 'Indie Flower';">The End</h1>
                 <p style="font-size: 14px; font-style: italic;">"Together we'll fly."</p>
                 <p style="margin-top: 20px;">❤️</p>
@@ -212,24 +205,15 @@
         const audio = document.getElementById('audio-player');
         let musicStarted = false;
 
-        // Fungsi memutar musik secara stabil
         function playMusic() {
             if (!musicStarted) {
-                audio.play()
-                .then(() => {
+                audio.play().then(() => {
                     musicStarted = true;
-                    document.getElementById('status-text').innerText = "🔊 Playing: Oasis - Slide Away 🎸";
-                })
-                .catch(err => {
-                    console.log("Audio diblokir browser, dicoba ulang pada klik berikutnya...", err);
-                });
+                    document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away";
+                }).catch(err => console.log("Audio diblokir browser."));
             }
         }
 
-        // Pemicu musik di ketukan pertama pada layar
-        document.body.addEventListener('click', playMusic);
-
-        // Pengatur halaman buku (anti-stuck & anti-acak-acakan)
         pages.forEach((page, index) => {
             const baseZIndex = 10 - index;
             page.style.zIndex = baseZIndex;
@@ -239,9 +223,7 @@
 
                 if (page.classList.contains('flipped')) {
                     page.classList.remove('flipped');
-                    setTimeout(() => {
-                        page.style.zIndex = baseZIndex;
-                    }, 300);
+                    setTimeout(() => { page.style.zIndex = baseZIndex; }, 500);
                 } else {
                     page.classList.add('flipped');
                     page.style.zIndex = 20 + index;

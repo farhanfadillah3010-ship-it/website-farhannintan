@@ -1,204 +1,974 @@
-<!-- ========================= -->
-<!-- PAGE 1 -->
-<!-- ========================= -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Away — Memory Diary</title>
 
-<div class="page active">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;500;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
 
-    <div class="sticker one">✨</div>
-    <div class="sticker two">🤍</div>
+<style>
 
-    <div class="polaroid">
-        <div class="tape"></div>
+:root{
+    --cream:#f8f2e8;
+    --beige:#eadfce;
+    --brown:#6c5448;
+    --gold:#d7b46a;
+    --gold-soft:rgba(215,180,106,.35);
+    --warm:#fff8ef;
+}
 
-        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop">
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    cursor:none;
+}
+
+body{
+    overflow:hidden;
+    background:#090909;
+    font-family:'Cormorant Garamond', serif;
+    color:white;
+}
+
+/* =========================
+BACKGROUND
+========================= */
+
+.bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-20;
+}
+
+.bg::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,220,160,.18),
+    transparent 30%),
+
+    radial-gradient(circle at bottom right,
+    rgba(255,180,100,.12),
+    transparent 35%),
+
+    linear-gradient(120deg,#0a0a0a,#17120f,#1d1813);
+}
+
+.grain{
+    position:absolute;
+    inset:0;
+    background:url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Noise_Texture.png');
+    opacity:.06;
+    mix-blend-mode:soft-light;
+    animation:grain 8s steps(10) infinite;
+}
+
+@keyframes grain{
+    0%{transform:translate(0,0);}
+    20%{transform:translate(-3%,2%);}
+    40%{transform:translate(3%,4%);}
+    60%{transform:translate(2%,-2%);}
+    80%{transform:translate(-2%,3%);}
+    100%{transform:translate(0,0);}
+}
+
+.lights{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.light{
+    position:absolute;
+    width:400px;
+    height:120vh;
+    background:linear-gradient(to bottom,
+    rgba(255,210,150,.2),
+    transparent);
+    filter:blur(60px);
+    transform:rotate(20deg);
+    animation:lightMove 12s ease-in-out infinite alternate;
+}
+
+.light:nth-child(2){
+    left:70%;
+    animation-duration:18s;
+}
+
+@keyframes lightMove{
+    from{
+        transform:translateY(-5%) rotate(15deg);
+    }
+    to{
+        transform:translateY(10%) rotate(-10deg);
+    }
+}
+
+.particles{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.particles span{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:rgba(255,230,180,.8);
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh) scale(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(-120vh) scale(1.4);
+        opacity:0;
+    }
+}
+
+/* =========================
+CURSOR
+========================= */
+
+#cursor{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    position:fixed;
+    pointer-events:none;
+    z-index:9999;
+    background:white;
+    mix-blend-mode:difference;
+    box-shadow:
+    0 0 10px white,
+    0 0 30px var(--gold),
+    0 0 50px var(--gold-soft);
+    transform:translate(-50%,-50%);
+}
+
+.trail{
+    position:fixed;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(255,220,170,.7);
+    pointer-events:none;
+    z-index:9998;
+    animation:trailFade .8s linear forwards;
+}
+
+@keyframes trailFade{
+    to{
+        transform:scale(0);
+        opacity:0;
+    }
+}
+
+/* =========================
+COVER
+========================= */
+
+#cover{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle,
+    rgba(255,245,225,.95),
+    rgba(225,210,190,.98)),
+
+    url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+
+    transition:2s cubic-bezier(.7,0,.3,1);
+}
+
+#cover.open{
+    opacity:0;
+    transform:scale(1.15);
+    pointer-events:none;
+}
+
+.cover-overlay{
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,255,255,.6),
+    transparent 30%),
+
+    radial-gradient(circle at bottom right,
+    rgba(255,210,120,.3),
+    transparent 35%);
+}
+
+.cover-content{
+    position:relative;
+    z-index:2;
+}
+
+.cover-content h1{
+    font-family:'Playfair Display', serif;
+    font-size:clamp(4rem,10vw,8rem);
+    color:#3f2d22;
+    font-style:italic;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,.5),
+    0 0 40px rgba(215,180,106,.5);
+
+    animation:shimmer 5s infinite;
+}
+
+@keyframes shimmer{
+    50%{
+        text-shadow:
+        0 0 20px rgba(255,255,255,.7),
+        0 0 60px rgba(215,180,106,.8);
+    }
+}
+
+.subtitle{
+    margin-top:10px;
+    font-family:'Dancing Script', cursive;
+    color:#6b5246;
+    font-size:1.6rem;
+}
+
+.tap{
+    margin-top:35px;
+    letter-spacing:5px;
+    font-size:.8rem;
+    text-transform:uppercase;
+    color:#8c7364;
+    animation:breathe 2s infinite;
+}
+
+@keyframes breathe{
+    50%{
+        opacity:.3;
+        transform:translateY(3px);
+    }
+}
+
+/* =========================
+BOOK
+========================= */
+
+#book{
+    width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    perspective:3000px;
+}
+
+.page{
+    position:absolute;
+
+    width:min(90vw,950px);
+    height:min(86vh,720px);
+
+    background:
+    linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),
+    url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
+    var(--cream);
+
+    border-radius:8px;
+
+    padding:50px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+
+    transform:
+    rotateY(-90deg)
+    translateY(30px)
+    scale(.92);
+
+    transition:1.5s cubic-bezier(.2,.8,.2,1);
+
+    box-shadow:
+    0 25px 70px rgba(0,0,0,.45),
+    inset 0 0 50px rgba(255,255,255,.4);
+
+    overflow:hidden;
+}
+
+.page.active{
+    opacity:1;
+
+    transform:
+    rotateY(0)
+    translateY(0)
+    scale(1);
+}
+
+.page::before{
+    content:'';
+    position:absolute;
+    inset:0;
+
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,255,255,.5),
+    transparent 30%);
+}
+
+/* decorations */
+
+.sticker{
+    position:absolute;
+    font-size:1.8rem;
+    animation:floatSticker 5s ease-in-out infinite;
+}
+
+.sticker.one{
+    top:20px;
+    right:30px;
+}
+
+.sticker.two{
+    bottom:25px;
+    left:30px;
+}
+
+@keyframes floatSticker{
+    50%{
+        transform:translateY(-10px) rotate(8deg);
+    }
+}
+
+.polaroid{
+    background:white;
+    padding:15px 15px 60px;
+    box-shadow:
+    0 20px 30px rgba(0,0,0,.2);
+
+    position:relative;
+
+    transform:rotate(-3deg);
+
+    animation:swing 5s ease-in-out infinite;
+}
+
+@keyframes swing{
+    50%{
+        transform:
+        rotate(-1deg)
+        translateY(-10px);
+    }
+}
+
+.polaroid img{
+    width:320px;
+    height:380px;
+    object-fit:cover;
+    display:block;
+}
+
+.tape{
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%) rotate(2deg);
+
+    width:120px;
+    height:35px;
+
+    background:rgba(255,225,170,.45);
+
+    backdrop-filter:blur(2px);
+}
+
+/* =========================
+LYRICS
+========================= */
+
+.note{
+    width:100%;
+    margin-top:30px;
+
+    display:flex;
+    justify-content:center;
+    text-align:center;
+
+    padding:0 20px;
+}
+
+.typing{
+    max-width:850px;
+
+    font-family:'Dancing Script', cursive;
+
+    font-size:clamp(1.8rem,3vw,3.2rem);
+
+    color:#5c4337;
+
+    line-height:1.6;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,.4),
+    0 0 20px rgba(215,180,106,.2);
+
+    animation:fadeLyrics 1.5s ease;
+
+    white-space:normal;
+
+    word-break:break-word;
+}
+
+.final-text{
+    font-size:clamp(2.6rem,5vw,4rem);
+}
+
+@keyframes fadeLyrics{
+    from{
+        opacity:0;
+        transform:
+        translateY(20px)
+        scale(.98);
+        filter:blur(8px);
+    }
+
+    to{
+        opacity:1;
+        transform:
+        translateY(0)
+        scale(1);
+        filter:blur(0);
+    }
+}
+
+/* =========================
+CONTROLS
+========================= */
+
+.controls{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:20px;
+
+    opacity:0;
+    transition:1s;
+
+    z-index:100;
+}
+
+.controls.show{
+    opacity:1;
+}
+
+button{
+    border:none;
+    padding:14px 28px;
+
+    border-radius:40px;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    font-family:'Playfair Display', serif;
+
+    letter-spacing:2px;
+
+    transition:.4s;
+}
+
+button:hover{
+    transform:translateY(-4px) scale(1.04);
+
+    background:rgba(215,180,106,.2);
+
+    box-shadow:
+    0 0 20px rgba(215,180,106,.3);
+}
+
+.music{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:120;
+}
+
+/* =========================
+ENDING
+========================= */
+
+#ending{
+    position:fixed;
+    inset:0;
+
+    background:black;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:3s;
+
+    z-index:500;
+}
+
+#ending.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+#ending h1{
+    font-family:'Playfair Display', serif;
+
+    font-size:clamp(2rem,6vw,5rem);
+
+    color:var(--gold);
+
+    font-style:italic;
+
+    text-align:center;
+
+    animation:endGlow 4s infinite alternate;
+}
+
+@keyframes endGlow{
+    to{
+        text-shadow:
+        0 0 20px rgba(215,180,106,.5),
+        0 0 50px rgba(215,180,106,.8);
+    }
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.page{
+    padding:25px;
+}
+
+.polaroid img{
+    width:220px;
+    height:280px;
+}
+
+.typing{
+    font-size:1.6rem;
+}
+
+button{
+    padding:12px 18px;
+    font-size:.8rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+
+    <div class="grain"></div>
+
+    <div class="lights">
+        <div class="light"></div>
+        <div class="light"></div>
     </div>
 
-    <div class="note">
-        <span class="typing">
-            “Slide in baby, together we’ll fly”
-        </span>
+    <div class="particles" id="particles"></div>
+
+</div>
+
+<div id="cursor"></div>
+
+<audio id="bgm" loop>
+    <source src="slide-away.mp3" type="audio/mp3">
+</audio>
+
+<!-- COVER -->
+
+<section id="cover" onclick="openBook()">
+
+    <div class="cover-overlay"></div>
+
+    <div class="cover-content">
+
+        <p style="letter-spacing:8px;color:#8b6d5c;margin-bottom:15px;">
+            MEMORIES
+        </p>
+
+        <h1>Slide Away</h1>
+
+        <div class="subtitle">
+            A little memory book for us.
+        </div>
+
+        <div class="tap">
+            Tap anywhere to open the memories
+        </div>
+
+    </div>
+
+</section>
+
+<!-- BOOK -->
+
+<div id="book">
+
+    <!-- PAGE TEMPLATE -->
+
+    <div class="page active">
+
+        <div class="sticker one">✨</div>
+        <div class="sticker two">🤍</div>
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Slide in baby, together we’ll fly”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="sticker one">🌙</div>
+
+        <div class="polaroid" style="transform:rotate(4deg);">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “I’ve tried praying but I don’t know what you’re saying to me”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="sticker one">☁️</div>
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Now that you’re mine, we’ll find a way”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Of chasing the sun”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Let me be the one who shines with you”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “In the morning we don’t know what to do”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Two of a kind, we’ll find a way”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “To do what we’ve done”
+            </span>
+        </div>
+
+    </div>
+
+    <div class="page">
+
+        <div class="polaroid">
+            <div class="tape"></div>
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
+        </div>
+
+        <div class="note">
+            <span class="typing">
+                “Let me be the one who shines with you”
+            </span>
+        </div>
+
+    </div>
+
+    <!-- FINAL -->
+
+    <div class="page">
+
+        <div class="note">
+            <span class="typing final-text">
+                “And we can slide away...”
+            </span>
+        </div>
+
+        <button onclick="showEnding()" style="margin-top:40px;">
+            Close The Book
+        </button>
+
     </div>
 
 </div>
 
-<!-- ========================= -->
-<!-- PAGE 2 -->
-<!-- ========================= -->
+<!-- CONTROLS -->
 
-<div class="page">
+<div class="controls" id="controls">
 
-    <div class="sticker one">🌙</div>
+    <button onclick="prevPage()">Prev</button>
 
-    <div class="polaroid" style="transform:rotate(4deg);">
-        <div class="tape"></div>
-
-        <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
-    </div>
-
-    <div class="note">
-        <span class="typing">
-            “I’ve tried praying but I don’t know what you’re saying to me”
-        </span>
-    </div>
+    <button onclick="nextPage()">Next</button>
 
 </div>
 
-<!-- ========================= -->
-<!-- PAGE 3 -->
-<!-- ========================= -->
+<button class="music" onclick="toggleMusic()">
+    Music
+</button>
 
-<div class="page">
+<!-- ENDING -->
 
-    <div class="sticker one">☁️</div>
+<div id="ending">
 
-    <div class="polaroid">
-        <div class="tape"></div>
-
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop">
-    </div>
-
-    <div class="note">
-        <span class="typing">
-            “Now that you’re mine, we’ll find a way”
-        </span>
-    </div>
+    <h1>
+        Some memories never fade.
+    </h1>
 
 </div>
 
-<!-- ========================= -->
-<!-- PAGE 4 -->
-<!-- ========================= -->
+<script>
 
-<div class="page">
+/* particles */
 
-    <div class="polaroid">
-        <div class="tape"></div>
+const particles = document.getElementById('particles');
 
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop">
-    </div>
+for(let i=0;i<80;i++){
 
-    <div class="note">
-        <span class="typing">
-            “Of chasing the sun”
-        </span>
-    </div>
+    let p = document.createElement('span');
 
-</div>
+    p.style.left = Math.random()*100 + 'vw';
 
-<!-- ========================= -->
-<!-- PAGE 5 -->
-<!-- ========================= -->
+    p.style.animationDuration =
+    6 + Math.random()*10 + 's';
 
-<div class="page">
+    p.style.animationDelay =
+    Math.random()*5 + 's';
 
-    <div class="polaroid">
-        <div class="tape"></div>
+    p.style.opacity = Math.random();
 
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
-    </div>
+    particles.appendChild(p);
+}
 
-    <div class="note">
-        <span class="typing">
-            “Let me be the one who shines with you”
-        </span>
-    </div>
+/* cursor */
 
-</div>
+const cursor = document.getElementById('cursor');
 
-<!-- ========================= -->
-<!-- PAGE 6 -->
-<!-- ========================= -->
+document.addEventListener('mousemove',e=>{
 
-<div class="page">
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
 
-    <div class="polaroid">
-        <div class="tape"></div>
+    let trail = document.createElement('div');
 
-        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
-    </div>
+    trail.className='trail';
 
-    <div class="note">
-        <span class="typing">
-            “In the morning we don’t know what to do”
-        </span>
-    </div>
+    trail.style.left=e.clientX+'px';
+    trail.style.top=e.clientY+'px';
 
-</div>
+    document.body.appendChild(trail);
 
-<!-- ========================= -->
-<!-- PAGE 7 -->
-<!-- ========================= -->
+    setTimeout(()=>trail.remove(),800);
 
-<div class="page">
+});
 
-    <div class="polaroid">
-        <div class="tape"></div>
+/* book logic */
 
-        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
-    </div>
+const pages = document.querySelectorAll('.page');
 
-    <div class="note">
-        <span class="typing">
-            “Two of a kind, we’ll find a way”
-        </span>
-    </div>
+let current = 0;
 
-</div>
+const bgm = document.getElementById('bgm');
 
-<!-- ========================= -->
-<!-- PAGE 8 -->
-<!-- ========================= -->
+function openBook(){
 
-<div class="page">
+    document.getElementById('cover')
+    .classList.add('open');
 
-    <div class="polaroid">
-        <div class="tape"></div>
+    document.getElementById('controls')
+    .classList.add('show');
 
-        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?q=80&w=1200&auto=format&fit=crop">
-    </div>
+    bgm.volume=.8;
 
-    <div class="note">
-        <span class="typing">
-            “To do what we’ve done”
-        </span>
-    </div>
+    bgm.play().catch(()=>{});
 
-</div>
+}
 
-<!-- ========================= -->
-<!-- PAGE 9 -->
-<!-- ========================= -->
+function showPage(index){
 
-<div class="page">
+    pages.forEach(page=>{
+        page.classList.remove('active');
+    });
 
-    <div class="polaroid">
-        <div class="tape"></div>
+    pages[index].classList.add('active');
+}
 
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
-    </div>
+function nextPage(){
 
-    <div class="note">
-        <span class="typing">
-            “Let me be the one who shines with you”
-        </span>
-    </div>
+    if(current < pages.length-1){
 
-</div>
+        current++;
 
-<!-- ========================= -->
-<!-- FINAL PAGE -->
-<!-- ========================= -->
+        showPage(current);
+    }
+}
 
-<div class="page">
+function prevPage(){
 
-    <div class="note">
-        <span class="typing final-lyrics">
-            “And we can slide away...”
-        </span>
-    </div>
+    if(current > 0){
 
-    <button onclick="showEnding()" style="margin-top:40px;">
-        Close The Book
-    </button>
+        current--;
 
-</div>
+        showPage(current);
+    }
+}
+
+function toggleMusic(){
+
+    if(bgm.paused){
+
+        bgm.play();
+
+    }else{
+
+        bgm.pause();
+    }
+}
+
+function showEnding(){
+
+    document.getElementById('ending')
+    .classList.add('show');
+
+    let fade = setInterval(()=>{
+
+        if(bgm.volume > .05){
+
+            bgm.volume -= .05;
+
+        }else{
+
+            bgm.pause();
+
+            clearInterval(fade);
+        }
+
+    },200);
+
+}
+
+</script>
+
+</body>
+    </html>

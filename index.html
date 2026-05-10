@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Away - Oasis Jurnal ♡</title>
+    <title>Slide Away - Fullscreen Jurnal ♡</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Indie+Flower&family=Quicksand:wght@500&display=swap" rel="stylesheet">
 
@@ -20,25 +20,33 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: #1a1a1a;
+            background-color: #000; /* Latar hitam penuh */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
             font-family: 'Quicksand', sans-serif;
             flex-direction: column;
             user-select: none;
+            cursor: pointer; /* Memberitahu user layar bisa diklik */
         }
 
-        /* Container Buku Utama */
+        /* -----------------------------------------------------------
+           1. Modifikasi Container Utama Agar Fullscreen & Responsif 
+           ----------------------------------------------------------- */
         .book-viewport {
-            width: 350px;
-            height: 500px;
             position: relative;
+            /* Menggunakan 90% dari tinggi layar agar ada sedikit ruang */
+            height: 90vh; 
+            /* Menggunakan rasio aspek buku (misal 3:4) agar proporsional */
+            aspect-ratio: 3 / 4; 
+            max-width: 95vw; /* Agar tidak meluap di layar lebar */
             overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            background-color: #1a1a1a;
         }
 
         /* Container Panjang Penampung Semua Halaman */
@@ -54,7 +62,7 @@
             min-width: 100%;
             height: 100%;
             background-color: var(--bg-paper);
-            padding: 25px;
+            padding: 5% 7%; /* Menggunakan persentase agar responsif */
             display: flex;
             flex-direction: column;
             position: relative;
@@ -72,16 +80,27 @@
             border: 6px double #fff3d1;
         }
 
-        /* Ornamen Scrapbook */
+        /* Elemen Hiasan Jurnal (Responsif) */
         .photo-frame {
             background: white;
-            padding: 8px 8px 25px 8px;
+            padding: 2% 2% 8% 2%; /* padding responsif */
             box-shadow: 2px 5px 15px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
             width: 90%;
-            margin: auto auto 10px auto;
+            margin: auto auto 3% auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .photo-frame img { width: 100%; height: 160px; object-fit: cover; }
+        
+        /* Mengatur gambar di dalam frame */
+        .photo-frame img { 
+            width: 100%; 
+            height: 100%; 
+            max-height: 40vh; /* Membatasi tinggi gambar agar lirik tidak tergeser */
+            object-fit: cover; 
+            border-radius: 2px;
+        }
 
         .sticky-note {
             color: white; padding: 6px 12px;
@@ -91,22 +110,26 @@
         }
 
         .handwritten {
-            font-family: var(--text-hand); font-size: 21px;
-            color: #333; margin-top: 15px; text-align: center; line-height: 1.4;
+            font-family: var(--text-hand); font-size: calc(18px + 1vw); /* Font responsif */
+            color: #333; margin-top: 5%; text-align: center; line-height: 1.4;
         }
 
-        /* Petunjuk Audio */
+        /* Status Bar Lagu di Kanan Atas (Tampil tipis di Fullscreen) */
         .music-status {
-            position: fixed; top: 15px; right: 15px; color: #fff;
-            font-size: 11px; background: rgba(255,255,255,0.1);
-            padding: 5px 12px; border-radius: 15px; z-index: 100;
+            position: fixed; top: 10px; right: 10px; color: #fff;
+            font-size: 10px; background: rgba(0,0,0,0.5);
+            padding: 4px 10px; border-radius: 15px; z-index: 100;
+            opacity: 0.7;
         }
 
-        .instruction {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 12px;
-            margin-top: 15px;
+        /* Tombol Fullscreen Manual (Pojok Kiri Bawah) */
+        #fullscreen-btn {
+            position: fixed; bottom: 10px; left: 10px;
+            background: rgba(255,255,255,0.2); color: #fff;
+            border: none; padding: 8px 12px; border-radius: 5px;
+            font-size: 12px; cursor: pointer; z-index: 110;
         }
+
     </style>
 </head>
 <body>
@@ -115,17 +138,17 @@
         <source src="slide-away.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="music-status" id="status-text">🎵 Tap layar untuk mulai musik</div>
+    <div class="music-status" id="status-text">🎵 Tap untuk musik & Fullscreen</div>
 
-    <div class="book-viewport" id="book">
+    <div class="book-viewport" id="book-viewport">
         
         <div class="book-slider" id="slider">
             
             <div class="page cover">
-                <div style="font-size: 60px;">🎸</div>
-                <h1 style="font-family: 'Indie Flower';">Slide Away</h1>
+                <div style="font-size: 7vh;">🎸</div>
+                <h1 style="font-family: 'Indie Flower'; font-size: calc(24px + 2vw);">Slide Away</h1>
                 <p style="margin-top: 10px; font-size: 14px;">Oasis - Our Jurnal</p>
-                <p style="margin-top: 25px; font-size: 11px; opacity: 0.7;">Tap untuk membuka & putar musik ✨</p>
+                <p style="margin-top: 30px; font-size: 11px; opacity: 0.8;">Ketuk untuk Fullscreen & Musik ✨</p>
             </div>
 
             <div class="page">
@@ -147,74 +170,114 @@
             </div>
 
             <div class="page">
-                <div class="sticky-note" style="background: var(--note-green);">Together</div>
-                <div class="handwritten">"Let me be the one who shines with you...<br>In the morning when you don't know what to do."</div>
+                <div class="sticky-note" style="background: var(--note-green);">Chorus</div>
+                <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
                 <div class="photo-frame" style="transform:rotate(2deg)"><img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400"></div>
             </div>
 
             <div class="page">
-                <div class="sticky-note" style="background: var(--note-red);">Two of a Kind</div>
-                <div class="handwritten">"Two of a kind, we'll find a way...<br>To do what we've done."</div>
-                <div class="photo-frame"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400"></div>
-            </div>
-
-            <div class="page">
-                <div class="sticky-note" style="background: var(--note-blue);">My Star</div>
-                <div class="handwritten">"Let me be the one who shines with you..."</div>
-                <div class="photo-frame" style="transform:rotate(-3deg)"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"></div>
-            </div>
-
-            <div class="page">
-                <div class="sticky-note" style="background: var(--note-green);">Outro</div>
-                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: 24px; margin-top: 25px;">
+                <div class="sticky-note" style="background: var(--note-red);">Outro</div>
+                <div class="handwritten" style="color: #1c354e; font-weight: bold; font-size: calc(20px + 1.5vw); margin-top: 30px;">
                     "And we can slide away...<br>slide away...<br>slide away."
                 </div>
-                <div class="photo-frame" style="transform:scale(1.05)"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
+                <div class="photo-frame" style="transform:scale(1.05); margin-top: auto;"><img src="https://images.unsplash.com/photo-1470246973918-29a93221c455?w=400"></div>
             </div>
 
             <div class="page cover">
-                <h1 style="font-family: 'Indie Flower';">The End</h1>
-                <p style="font-size: 14px; font-style: italic; margin-top: 10px;">"Together we'll fly."</p>
-                <p style="margin-top: 30px; font-size: 30px;">❤️</p>
+                <h1 style="font-family: 'Indie Flower'; font-size: calc(24px + 2vw);">The End</h1>
+                <p style="font-size: 14px; font-style: italic;">"Together we'll fly."</p>
+                <p style="margin-top: 30px; font-size: 5vh;">❤️</p>
             </div>
 
         </div>
     </div>
 
-    <div class="instruction">Ketuk untuk menggeser ke halaman berikutnya</div>
+    <button id="fullscreen-btn">Toggle Fullscreen 📱</button>
 
     <script>
         const slider = document.getElementById('slider');
         const pages = document.querySelectorAll('.page');
         const audio = document.getElementById('audio-player');
+        const viewport = document.getElementById('book-viewport');
+        const fsBtn = document.getElementById('fullscreen-btn');
         
         let currentPage = 0;
         let musicStarted = false;
 
-        function playMusic() {
+        // -----------------------------------------------------------
+        // 2. JavaScript untuk Logika Fullscreen
+        // -----------------------------------------------------------
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement &&    // Browser standar
+                !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // Browser lama
+                
+                // Minta izin Fullscreen ke elemen 'body' agar seluruh layar hitam
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                // Keluar dari Fullscreen jika sudah aktif
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        // Fungsi gabungan untuk ketukan pertama
+        function handleFirstClick() {
+            // 1. Putar Musik
             if (!musicStarted) {
                 audio.play()
                 .then(() => {
                     musicStarted = true;
-                    document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away";
+                    document.getElementById('status-text').innerText = "🔊 Oasis - Slide Away 🎸";
                 })
                 .catch(err => {
-                    console.log("Menunggu interaksi browser...");
+                    console.log("Menunggu interaksi browser untuk audio...");
                 });
+            }
+            
+            // 2. Minta Fullscreen Otomatis
+            if (currentPage === 0 && !document.fullscreenElement) {
+                toggleFullscreen();
             }
         }
 
-        // Jalankan animasi geser buku saat layar diketuk
-        document.body.addEventListener('click', () => {
+        // Tombol manual untuk bantuan
+        fsBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Agar tidak mentrigger slide halaman
+            toggleFullscreen();
             playMusic();
+        });
 
+        // -----------------------------------------------------------
+        // 3. Logika Slider Buku Geser Sempurna (Urut & Sinkron)
+        // -----------------------------------------------------------
+        
+        document.body.addEventListener('click', () => {
+            handleFirstClick(); // Pemicu musik & fullscreen
+
+            // Logika geser halaman
             if (currentPage < pages.length - 1) {
                 currentPage++;
             } else {
                 currentPage = 0; // Mengulang kembali ke cover depan jika sudah di akhir
             }
 
-            // Geser slider ke halaman aktif
+            // Geser slider secara horizontal ke halaman aktif
             slider.style.transform = `translateX(-${currentPage * 100}%)`;
         });
     </script>
